@@ -1,16 +1,14 @@
 package com.lamdo.render;
 
 import com.lamdo.render.model.RawModel;
+import com.lamdo.render.texture.TextureData;
 import com.lamdo.util.ArrayUtils;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.stb.STBImage;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.opengl.PNGDecoder;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,24 +39,103 @@ public class Loader {
     }
 
     public static int loadTexture(String filepath) {
-        try (InputStream imageStream = Loader.class.getResourceAsStream(filepath)) {
-            Texture texture = TextureLoader.getTexture("png", imageStream);
-            int textureID = texture.getTextureID();
-            textures.add(textureID);
-            glBindTexture(GL_TEXTURE_2D, textureID);
+        TextureData data = decodeTextureFile(filepath);
+        int textureID = glGenTextures();
+        textures.add(textureID);
+        glBindTexture(GL_TEXTURE_2D, textureID);
 
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-            glGenerateMipmap(GL_TEXTURE_2D);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, data.width(), data.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data.buffer());
 
-            glBindTexture(GL_TEXTURE_2D, 0);
-            return textureID;
-        } catch (IOException e) {
-            System.out.println("Texture " + filepath + " not found.");
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glBindTexture(GL_TEXTURE_2D, 0);
+        return textureID;
+    }
+
+    public static int loadTextureAtlas(String filepath) {
+        TextureData data = decodeTextureFile(filepath);
+        int textureID = glGenTextures();
+        textures.add(textureID);
+        glBindTexture(GL_TEXTURE_2D, textureID);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, data.width(), data.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data.buffer());
+        data = halfSizeAtlas(data);
+        glTexImage2D(GL_TEXTURE_2D, 1, GL_RGBA, data.width(), data.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data.buffer());
+        data = halfSizeAtlas(data);
+        glTexImage2D(GL_TEXTURE_2D, 2, GL_RGBA, data.width(), data.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data.buffer());
+        data = halfSizeAtlas(data);
+        glTexImage2D(GL_TEXTURE_2D, 3, GL_RGBA, data.width(), data.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data.buffer());
+        data = halfSizeAtlas(data);
+        glTexImage2D(GL_TEXTURE_2D, 4, GL_RGBA, data.width(), data.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data.buffer());
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 4);
+//        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glBindTexture(GL_TEXTURE_2D, 0);
+        return textureID;
+    }
+
+    private static TextureData halfSizeAtlas(TextureData data) {
+        int width = data.width() / 2;
+        int height = data.height() / 2;
+        ByteBuffer buffer = BufferUtils.createByteBuffer(data.buffer().capacity() / 4);
+
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                int[] indices = { x*8+y*data.width()*8, x*8+y*data.width()*8+4, x*8+y*data.width()*8+data.width()*4, x*8+y*data.width()*8+data.width()*4+4};
+                int r = 0, g = 0, b = 0, a = 0;
+                for(int index: indices) {
+                    r += data.buffer().get(index) & 0xff;
+                    g += data.buffer().get(index+1) & 0xff;
+                    b += data.buffer().get(index+2) & 0xff;
+                    a += data.buffer().get(index+3) & 0xff;
+                }
+                r /= indices.length;
+                g /= indices.length;
+                b /= indices.length;
+                a /= indices.length;
+
+                buffer.put((byte)r);
+                buffer.put((byte)g);
+                buffer.put((byte)b);
+                buffer.put((byte)a);
+            }
         }
-        return -1;
+
+        buffer.flip();
+
+        return new TextureData(width, height, buffer);
+
+    }
+
+    private static TextureData decodeTextureFile(String fileName) {
+        int width = 0;
+        int height = 0;
+        ByteBuffer buffer = null;
+        try {
+            InputStream in = Loader.class.getResourceAsStream(fileName);
+            PNGDecoder decoder = new PNGDecoder(in);
+            width = decoder.getWidth();
+            height = decoder.getHeight();
+            buffer = ByteBuffer.allocateDirect(4 * width * height);
+            decoder.decode(buffer, width * 4, PNGDecoder.RGBA);
+            buffer.flip();
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Tried to load texture " + fileName + " but failed.");
+            System.exit(-1);
+        }
+        return new TextureData(width, height, buffer);
     }
 
     public static void cleanUp() {

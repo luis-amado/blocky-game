@@ -25,8 +25,8 @@ public class Main {
         // Create the game window
         Window window = new Window();
 
-        // Set the texture that the voxels will use, in the future this will be a texture atlas
-        VoxelModel.setTexture(Loader.loadTexture("/textures/dirt.png"), 1);
+        // Set the texture that the voxels will use
+        VoxelModel.setTexture(Loader.loadTextureAtlas("/textures/atlas.png"), 4);
 
         MasterRenderer renderer = new MasterRenderer();
         Camera camera = new Camera();
