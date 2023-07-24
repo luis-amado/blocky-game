@@ -1,9 +1,11 @@
 package com.lamdo.render;
 
+import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 
+import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -45,6 +47,7 @@ public class Window {
         GL.createCapabilities();
 
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        glfwSetCursorPos(window, 0, 0);
         if (glfwRawMouseMotionSupported())
             glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
@@ -80,8 +83,16 @@ public class Window {
         return (float)width.get(0)/height.get(0);
     }
 
+    // Input managing should move to its own class
     public static boolean isKeyPressed(int keyCode) {
         return glfwGetKey(window, keyCode) == GLFW_PRESS;
+    }
+
+    public static Vector2f getMousePosition() {
+        DoubleBuffer xPos = org.lwjglx.BufferUtils.createDoubleBuffer(1);
+        DoubleBuffer yPos = org.lwjglx.BufferUtils.createDoubleBuffer(1);
+        glfwGetCursorPos(Window.getWindowHandle(), xPos, yPos);
+        return new Vector2f((float) xPos.get(0), (float) yPos.get(0));
     }
 
     public static long getWindowHandle() {

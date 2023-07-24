@@ -2,6 +2,7 @@ package com.lamdo.entity.player;
 
 import com.lamdo.render.Window;
 import com.lamdo.util.MathUtil;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjglx.BufferUtils;
 
@@ -49,11 +50,10 @@ public class Camera {
             inputY += 1;
         }
 
-        DoubleBuffer xPos = BufferUtils.createDoubleBuffer(1);
-        DoubleBuffer yPos = BufferUtils.createDoubleBuffer(1);
-        glfwGetCursorPos(Window.getWindowHandle(), xPos, yPos);
-        yaw = (float) (xPos.get(0) * 0.1f);
-        pitch = (float) yPos.get(0) * 0.1f;
+        Vector2f mousePos = Window.getMousePosition();
+        System.out.println(mousePos);
+        yaw = (float) (mousePos.x * 0.1f);
+        pitch = (float) (mousePos.y * 0.1f);
 
         position
             .add(MathUtil.forwardVector(yaw).mul(inputZ).mul(speed))
