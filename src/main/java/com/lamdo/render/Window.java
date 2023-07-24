@@ -1,13 +1,16 @@
 package com.lamdo.render;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL;
+
+import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class Window {
 
-    private long window;
+    private final long window;
 
     public Window() {
 
@@ -21,7 +24,7 @@ public class Window {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
         // Create the window
-        window = glfwCreateWindow(600, 600, "Hello, World!", NULL, NULL);
+        window = glfwCreateWindow(600, 600, "LuisCraft", NULL, NULL);
         if(window == NULL) {
             glfwTerminate();
             System.err.println("There was a problem creating the window.");
@@ -51,6 +54,13 @@ public class Window {
 
     public void terminate() {
         glfwTerminate();
+    }
+
+    public float getAspectRatio() {
+        final IntBuffer width = BufferUtils.createIntBuffer(1);
+        final IntBuffer height = BufferUtils.createIntBuffer(1);
+        glfwGetWindowSize(window, width, height);
+        return (float)width.get(0)/height.get(0);
     }
 
 }
