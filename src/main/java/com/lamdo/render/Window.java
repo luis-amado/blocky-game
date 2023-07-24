@@ -1,16 +1,19 @@
 package com.lamdo.render;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 
 import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL33.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class Window {
 
-    private final long window;
+    private static long window;
+    private static boolean wasResized;
 
     public Window() {
 
@@ -31,6 +34,9 @@ public class Window {
             System.exit(-1);
         }
 
+        // Setup the resize callback
+        glfwSetWindowSizeCallback(window, this::windowResized);
+
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
         // Enable v-sync
@@ -40,7 +46,13 @@ public class Window {
 
     }
 
+    private void windowResized(long w, int width, int height) {
+        glViewport(0, 0, width, height);
+        wasResized = true;
+    }
+
     public void update() {
+        wasResized = false;
         // Swap the color buffers to render the next frame
         glfwSwapBuffers(window);
 
@@ -53,6 +65,7 @@ public class Window {
     }
 
     public void terminate() {
+        glfwSetWindowSizeCallback(window, null).free();
         glfwTerminate();
     }
 
@@ -61,6 +74,14 @@ public class Window {
         final IntBuffer height = BufferUtils.createIntBuffer(1);
         glfwGetWindowSize(window, width, height);
         return (float)width.get(0)/height.get(0);
+    }
+
+    public static long getWindowHandle() {
+        return window;
+    }
+
+    public static boolean wasWindowResized() {
+        return wasResized;
     }
 
 }

@@ -42,11 +42,15 @@ public class Main {
         RawModel model = Loader.loadToVAO(positions, textureCoords, indices);
         VoxelShader shader = new VoxelShader();
 
+        VoxelModel.setTexture(Loader.loadTexture("/textures/dirt.png"), 1);
+
         while(!window.shouldClose()) {
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(0, 0, 0, 1);
 
             shader.start();
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, VoxelModel.getTexture());
             glBindVertexArray(model.vaoID());
             glEnableVertexAttribArray(0);
             glEnableVertexAttribArray(1);
