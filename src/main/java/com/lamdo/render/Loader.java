@@ -78,12 +78,12 @@ public class Loader {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 4);
-//        glGenerateMipmap(GL_TEXTURE_2D);
 
         glBindTexture(GL_TEXTURE_2D, 0);
         return textureID;
     }
 
+    // Function to create a half resolution image of an atlas by combining every group of 4 pixels into one
     private static TextureData halfSizeAtlas(TextureData data) {
         int width = data.width() / 2;
         int height = data.height() / 2;

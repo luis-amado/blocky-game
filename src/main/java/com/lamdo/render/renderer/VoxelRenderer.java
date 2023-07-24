@@ -4,6 +4,8 @@ import com.lamdo.entity.player.Camera;
 import com.lamdo.render.model.RawModel;
 import com.lamdo.render.model.VoxelModel;
 import com.lamdo.render.shader.VoxelShader;
+import com.lamdo.world.Chunk;
+import com.lamdo.world.World;
 import org.joml.Matrix4f;
 
 import static org.lwjgl.opengl.GL33.*;
@@ -19,10 +21,12 @@ public class VoxelRenderer {
         shader.stop();
     }
 
-    public void render(VoxelModel model) {
+    public void render(World world) {
         bindTexture();
-        prepareVoxelModel(model);
-        glDrawElements(GL_TRIANGLES, model.getModel().indexCount(), GL_UNSIGNED_INT, 0);
+        for(Chunk chunk: world.getChunks()) {
+            prepareVoxelModel(chunk.getVoxelModel());
+            glDrawElements(GL_TRIANGLES, chunk.getVoxelModel().getModel().indexCount(), GL_UNSIGNED_INT, 0);
+        }
         unbindVoxelModel();
     }
 

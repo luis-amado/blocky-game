@@ -8,6 +8,7 @@ import com.lamdo.render.model.VoxelModel;
 import com.lamdo.render.renderer.MasterRenderer;
 import com.lamdo.render.shader.VoxelShader;
 import com.lamdo.world.Chunk;
+import com.lamdo.world.World;
 import org.joml.Vector3f;
 
 import java.io.BufferedReader;
@@ -31,9 +32,9 @@ public class Main {
         MasterRenderer renderer = new MasterRenderer();
         Camera camera = new Camera();
 
-        Chunk chunk = new Chunk(0,0);
-        chunk.generateTerrain();
-        chunk.generateMesh();
+        World world = new World();
+        world.generateTerrains();
+        world.generateMeshes();
 
         while(!window.shouldClose()) {
             glClear(GL_COLOR_BUFFER_BIT);
@@ -41,7 +42,7 @@ public class Main {
 
             camera.move();
 
-            renderer.render(chunk.getVoxelModel(), camera);
+            renderer.render(world, camera);
 
             window.update();
         }

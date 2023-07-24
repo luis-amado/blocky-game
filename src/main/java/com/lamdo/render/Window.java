@@ -2,6 +2,7 @@ package com.lamdo.render;
 
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 
@@ -16,6 +17,8 @@ public class Window {
 
     private static long window;
     private static boolean wasResized;
+    private static boolean fullscreen = false;
+    private static int xpos, ypos, width, height;
 
     public Window() {
 
@@ -51,6 +54,31 @@ public class Window {
         if (glfwRawMouseMotionSupported())
             glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
+    }
+
+    public static void toggleFullscreen() {
+        if(!fullscreen) {
+            IntBuffer xposB = org.lwjglx.BufferUtils.createIntBuffer(1);
+            IntBuffer yposB = org.lwjglx.BufferUtils.createIntBuffer(1);
+            IntBuffer widthB = org.lwjglx.BufferUtils.createIntBuffer(1);
+            IntBuffer heightB = org.lwjglx.BufferUtils.createIntBuffer(1);
+            glfwGetWindowPos(window, xposB, yposB);
+            glfwGetWindowSize(window, widthB, heightB);
+            xpos = xposB.get(0);
+            ypos = yposB.get(0);
+            width = widthB.get(0);
+            height = heightB.get(0);
+
+            long monitor = glfwGetMonitors().get(0);
+            GLFWVidMode mode = glfwGetVideoMode(monitor);
+            glfwSetWindowMonitor(Window.getWindowHandle(), monitor, 0, 0, mode.width(), mode.height(), mode.refreshRate());
+            fullscreen = true;
+            glfwSwapInterval(1);
+        } else {
+            glfwSetWindowMonitor(Window.getWindowHandle(), NULL, xpos, ypos, width, height, 0);
+            glfwSwapInterval(1);
+            fullscreen = false;
+        }
     }
 
     private void windowResized(long w, int width, int height) {

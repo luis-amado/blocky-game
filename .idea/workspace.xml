@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Generate mipmaps manually to avoid texture bleeding">
+    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Chunk with multiple blocks">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/World.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Camera.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Loader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Loader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/MasterRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/MasterRenderer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/VoxelRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/VoxelRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,8 +39,8 @@
       <list>
         <option value="Enum" />
         <option value="package-info" />
-        <option value="Class" />
         <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -188,7 +191,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690230173666</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Chunk with multiple blocks">
+      <option name="closed" value="true" />
+      <created>1690234959102</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1690234959102</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -224,7 +235,8 @@
     <MESSAGE value="Multiple Blocks" />
     <MESSAGE value="Stop rendering faces that are not visible" />
     <MESSAGE value="Generate mipmaps manually to avoid texture bleeding" />
-    <option name="LAST_COMMIT_MESSAGE" value="Generate mipmaps manually to avoid texture bleeding" />
+    <MESSAGE value="Chunk with multiple blocks" />
+    <option name="LAST_COMMIT_MESSAGE" value="Chunk with multiple blocks" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

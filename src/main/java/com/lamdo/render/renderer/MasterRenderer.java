@@ -5,6 +5,7 @@ import com.lamdo.render.Window;
 import com.lamdo.render.model.VoxelModel;
 import com.lamdo.render.shader.VoxelShader;
 import com.lamdo.util.MathUtil;
+import com.lamdo.world.World;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -27,7 +28,7 @@ public class MasterRenderer {
         voxelRenderer = new VoxelRenderer(voxelShader, projectionMatrix);
     }
 
-    public void render(VoxelModel model, Camera camera) {
+    public void render(World world, Camera camera) {
         if(Window.wasWindowResized()) {
             Matrix4f projectionMatrix = createProjectionMatrix();
             voxelRenderer.updateProjectionMatrix(projectionMatrix);
@@ -37,7 +38,7 @@ public class MasterRenderer {
         prepare();
         voxelShader.start();
         voxelShader.loadViewMatrix(viewMatrix);
-        voxelRenderer.render(model);
+        voxelRenderer.render(world);
         voxelShader.stop();
     }
 

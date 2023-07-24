@@ -20,11 +20,6 @@ public class Camera {
 
     private float speed = 0.1f;
     private boolean wasF11pressed = false;
-    private boolean fullscreen = false;
-    private int windowXpos = 0;
-    private int windowYpos = 0;
-    private int windowWidth = 0;
-    private int windowHeight = 0;
 
     public Camera() {
         position = new Vector3f(0, 0, 0);
@@ -61,28 +56,7 @@ public class Camera {
 
         if(Window.isKeyPressed(GLFW_KEY_F11)) {
             if(!wasF11pressed) {
-                if(!fullscreen) {
-                    IntBuffer xpos = BufferUtils.createIntBuffer(1);
-                    IntBuffer ypos = BufferUtils.createIntBuffer(1);
-                    IntBuffer width = BufferUtils.createIntBuffer(1);
-                    IntBuffer height = BufferUtils.createIntBuffer(1);
-                    glfwGetWindowPos(Window.getWindowHandle(), xpos, ypos);
-                    glfwGetWindowSize(Window.getWindowHandle(), width, height);
-                    windowXpos = xpos.get(0);
-                    windowYpos = ypos.get(0);
-                    windowWidth = width.get(0);
-                    windowHeight = height.get(0);
-
-                    long monitor = glfwGetMonitors().get(0);
-                    GLFWVidMode mode = glfwGetVideoMode(monitor);
-                    glfwSetWindowMonitor(Window.getWindowHandle(), monitor, 0, 0, mode.width(), mode.height(), mode.refreshRate());
-                    fullscreen = true;
-                    glfwSwapInterval(1);
-                } else {
-                    glfwSetWindowMonitor(Window.getWindowHandle(), NULL, windowXpos, windowYpos, windowWidth, windowHeight, 0);
-                    glfwSwapInterval(1);
-                    fullscreen = false;
-                }
+                Window.toggleFullscreen();
                 wasF11pressed = true;
             }
         } else {
