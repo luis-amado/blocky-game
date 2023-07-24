@@ -44,6 +44,10 @@ public class Window {
 
         GL.createCapabilities();
 
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        if (glfwRawMouseMotionSupported())
+            glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+
     }
 
     private void windowResized(long w, int width, int height) {
@@ -69,11 +73,15 @@ public class Window {
         glfwTerminate();
     }
 
-    public float getAspectRatio() {
+    public static float getAspectRatio() {
         final IntBuffer width = BufferUtils.createIntBuffer(1);
         final IntBuffer height = BufferUtils.createIntBuffer(1);
         glfwGetWindowSize(window, width, height);
         return (float)width.get(0)/height.get(0);
+    }
+
+    public static boolean isKeyPressed(int keyCode) {
+        return glfwGetKey(window, keyCode) == GLFW_PRESS;
     }
 
     public static long getWindowHandle() {

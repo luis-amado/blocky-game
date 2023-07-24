@@ -5,7 +5,10 @@ layout(location = 1) in vec2 coords;
 
 out vec2 pass_coords;
 
+uniform mat4 projection;
+uniform mat4 view;
+
 void main() {
-    gl_Position = vec4(position, 1.0);
+    gl_Position = projection * view * vec4(position, 1.0);
     pass_coords = coords;
 }

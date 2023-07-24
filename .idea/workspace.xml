@@ -4,14 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="First Quad">
-      <change afterPath="$PROJECT_DIR$/lib/slick-util3.jar" afterDir="false" />
+    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Textured Quad">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Camera.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/MasterRenderer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/VoxelRenderer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/MathUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Loader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Loader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/voxel.frag" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/voxel.frag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/shader/VoxelShader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/shader/VoxelShader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/voxel.vert" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/voxel.vert" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +88,7 @@
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.30614203",
-    "settings.editor.selected.configurable": "editor.preferences.import"
+    "settings.editor.selected.configurable": "editor.reader.mode"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -130,7 +133,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690162471639</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Textured Quad">
+      <option name="closed" value="true" />
+      <created>1690178296370</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1690178296370</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -159,18 +170,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Create window" />
     <MESSAGE value="First Quad" />
-    <option name="LAST_COMMIT_MESSAGE" value="First Quad" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java</url>
-          <line>44</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Textured Quad" />
+    <option name="LAST_COMMIT_MESSAGE" value="Textured Quad" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
