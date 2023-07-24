@@ -24,4 +24,16 @@ public class ArrayUtils {
         return arr;
     }
 
+    public static void addIntArrayToList(int[] arr, List<Integer> list) {
+        for(int i: arr) {
+            list.add(i);
+        }
+    }
+
+    public static void addFloatArrayToList(float[] arr, List<Float> list) {
+        for(float f: arr) {
+            list.add(f);
+        }
+    }
+
 }

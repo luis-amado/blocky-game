@@ -51,7 +51,6 @@ public class Camera {
         }
 
         Vector2f mousePos = Window.getMousePosition();
-        System.out.println(mousePos);
         yaw = (float) (mousePos.x * 0.1f);
         pitch = (float) (mousePos.y * 0.1f);
 

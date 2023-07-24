@@ -38,6 +38,9 @@ public class VoxelRenderer {
         glEnableVertexAttribArray(1);
 
         // also load the transformation of the voxel
+        Matrix4f transformMat = new Matrix4f();
+        transformMat.translate(voxelModel.getPosition());
+        shader.loadTransformationMatrix(transformMat);
     }
 
     private void unbindVoxelModel() {

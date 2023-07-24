@@ -7,6 +7,7 @@ import com.lamdo.render.model.RawModel;
 import com.lamdo.render.model.VoxelModel;
 import com.lamdo.render.renderer.MasterRenderer;
 import com.lamdo.render.shader.VoxelShader;
+import com.lamdo.world.Chunk;
 import org.joml.Vector3f;
 
 import java.io.BufferedReader;
@@ -21,42 +22,18 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // Create the game window
         Window window = new Window();
 
-        float[] positions = new float[]{
-                //north, south, east, west, up, down
-                1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0,
-                0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1,
-                1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0,
-                0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1,
-                0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-                1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0
-        };
-
-        float[] textureCoords = new float[]{
-                0, 0, 0, 1, 1, 1, 1, 0,
-                0, 0, 0, 1, 1, 1, 1, 0,
-                0, 0, 0, 1, 1, 1, 1, 0,
-                0, 0, 0, 1, 1, 1, 1, 0,
-                0, 0, 0, 1, 1, 1, 1, 0,
-                0, 0, 0, 1, 1, 1, 1, 0
-        };
-
-        int[] indices = new int[]{
-                0, 1, 2, 2, 3, 0,
-                4, 5, 6, 6, 7, 4,
-                8, 9, 10, 10, 11, 8,
-                12, 13, 14, 14, 15, 12,
-                16, 17, 18, 18, 19, 16,
-                20, 21, 22, 22, 23, 20
-        };
-
-        RawModel model = Loader.loadToVAO(positions, textureCoords, indices);
-        VoxelModel voxelModel = new VoxelModel(model, new Vector3f(0, 0, 0));
+        // Set the texture that the voxels will use, in the future this will be a texture atlas
         VoxelModel.setTexture(Loader.loadTexture("/textures/dirt.png"), 1);
-        MasterRenderer renderer = new MasterRenderer();
 
+        MasterRenderer renderer = new MasterRenderer();
         Camera camera = new Camera();
+
+        Chunk chunk = new Chunk(0,0);
+        chunk.generateTerrain();
+        chunk.generateMesh();
 
         while(!window.shouldClose()) {
             glClear(GL_COLOR_BUFFER_BIT);
@@ -64,7 +41,7 @@ public class Main {
 
             camera.move();
 
-            renderer.render(voxelModel, camera);
+            renderer.render(chunk.getVoxelModel(), camera);
 
             window.update();
         }
