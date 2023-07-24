@@ -18,18 +18,21 @@ public class MasterRenderer {
 
     private static final Vector3f SKY_COLOR = new Vector3f(0, 0.5f, 0.5f);
 
-    private Matrix4f projectionMatrix;
-
     private VoxelShader voxelShader = new VoxelShader();
     private VoxelRenderer voxelRenderer;
 
     public MasterRenderer() {
         enableCulling();
-        createProjectionMatrix();
+        Matrix4f projectionMatrix = createProjectionMatrix();
         voxelRenderer = new VoxelRenderer(voxelShader, projectionMatrix);
     }
 
     public void render(VoxelModel model, Camera camera) {
+        if(Window.wasWindowResized()) {
+            Matrix4f projectionMatrix = createProjectionMatrix();
+            voxelRenderer.updateProjectionMatrix(projectionMatrix);
+        }
+
         Matrix4f viewMatrix = MathUtil.createViewMatrix(camera);
         prepare();
         voxelShader.start();
@@ -57,9 +60,10 @@ public class MasterRenderer {
         glDisable(GL_CULL_FACE);
     }
 
-    private void createProjectionMatrix() {
+    private Matrix4f createProjectionMatrix() {
         Matrix4f matrix = new Matrix4f();
-        this.projectionMatrix = matrix.setPerspective(FOV, Window.getAspectRatio(), NEAR_PLANE, FAR_PLANE);
+        matrix.setPerspective(FOV, Window.getAspectRatio(), NEAR_PLANE, FAR_PLANE);
+        return matrix;
     }
 
 }

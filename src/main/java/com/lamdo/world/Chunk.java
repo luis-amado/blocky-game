@@ -35,8 +35,6 @@ public class Chunk {
                 int terrainHeight = 40;
                 for (int y = 0; y < HEIGHT; y++) {
 
-//                    setBlockLocal(x, y, z, Blocks.DIRT);
-
                     if(y > terrainHeight) {
                         setBlockLocal(x, y, z, Blocks.AIR);
                     } else if (y == terrainHeight) {

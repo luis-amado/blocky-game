@@ -26,6 +26,12 @@ public class VoxelRenderer {
         unbindVoxelModel();
     }
 
+    public void updateProjectionMatrix(Matrix4f projectionMatrix) {
+        shader.start();
+        shader.loadProjectionMatrix(projectionMatrix);
+        shader.stop();
+    }
+
     private void bindTexture() {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, VoxelModel.getTexture());
