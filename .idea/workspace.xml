@@ -4,16 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="First Block">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/Direction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" afterDir="false" />
+    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Multiple Blocks">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Camera.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/VoxelRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/VoxelRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/shader/VoxelShader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/shader/VoxelShader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/util/ArrayUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/ArrayUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/voxel.vert" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/voxel.vert" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/util/Direction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/Direction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,7 +159,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690216762190</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Multiple Blocks">
+      <option name="closed" value="true" />
+      <created>1690219089986</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1690219089986</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -198,7 +200,8 @@
     <MESSAGE value="Moveable camera" />
     <MESSAGE value="Small cleanup" />
     <MESSAGE value="First Block" />
-    <option name="LAST_COMMIT_MESSAGE" value="First Block" />
+    <MESSAGE value="Multiple Blocks" />
+    <option name="LAST_COMMIT_MESSAGE" value="Multiple Blocks" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

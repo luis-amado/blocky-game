@@ -1,6 +1,7 @@
 package com.lamdo.util;
 
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 public enum Direction {
     NORTH, SOUTH, EAST, WEST, UP, DOWN;
@@ -17,15 +18,15 @@ public enum Direction {
         }
     }
 
-    public Vector3f getNormal() {
+    public Vector3i getNormal() {
         switch(this) {
-            case NORTH: return new Vector3f(0, 0, -1);
-            case SOUTH: return new Vector3f(0, 0, 1);
-            case EAST: return new Vector3f(1, 0, 0);
-            case WEST: return new Vector3f(-1, 0, 0);
-            case UP: return new Vector3f(0, 1, 0);
-            case DOWN: return new Vector3f(0, -1, 0);
-            default: return new Vector3f();
+            case NORTH: return new Vector3i(0, 0, -1);
+            case SOUTH: return new Vector3i(0, 0, 1);
+            case EAST: return new Vector3i(1, 0, 0);
+            case WEST: return new Vector3i(-1, 0, 0);
+            case UP: return new Vector3i(0, 1, 0);
+            case DOWN: return new Vector3i(0, -1, 0);
+            default: return new Vector3i();
         }
     }
 }
