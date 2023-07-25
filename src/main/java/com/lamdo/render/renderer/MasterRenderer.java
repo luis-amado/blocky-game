@@ -2,6 +2,7 @@ package com.lamdo.render.renderer;
 
 import com.lamdo.entity.player.Camera;
 import com.lamdo.render.Window;
+import com.lamdo.render.shader.ShapeShader;
 import com.lamdo.render.shader.VoxelShader;
 import com.lamdo.util.MathUtil;
 import com.lamdo.world.World;
@@ -21,16 +22,21 @@ public class MasterRenderer {
     private VoxelShader voxelShader = new VoxelShader();
     private VoxelRenderer voxelRenderer;
 
+    private ShapeShader shapeShader = new ShapeShader();
+    private ShapeRenderer shapeRenderer;
+
     public MasterRenderer() {
         enableCulling();
         Matrix4f projectionMatrix = createProjectionMatrix();
         voxelRenderer = new VoxelRenderer(voxelShader, projectionMatrix);
+        shapeRenderer = new ShapeRenderer(shapeShader, projectionMatrix);
     }
 
     public void render(World world, Camera camera) {
         if(Window.wasWindowResized()) {
             Matrix4f projectionMatrix = createProjectionMatrix();
             voxelRenderer.updateProjectionMatrix(projectionMatrix);
+            shapeRenderer.updateProjectionMatrix(projectionMatrix);
         }
 
         Matrix4f viewMatrix = MathUtil.createViewMatrix(camera);
@@ -39,10 +45,15 @@ public class MasterRenderer {
         voxelShader.loadViewMatrix(viewMatrix);
         voxelRenderer.render(world);
         voxelShader.stop();
+
+        shapeShader.start();
+        shapeRenderer.render(camera);
+        shapeShader.stop();
     }
 
     public void cleanUp() {
         voxelShader.cleanUp();
+        shapeShader.cleanUp();
     }
 
     public void prepare() {

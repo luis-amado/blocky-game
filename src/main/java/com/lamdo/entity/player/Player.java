@@ -3,6 +3,7 @@ package com.lamdo.entity.player;
 import com.lamdo.entity.PhysicsEntity;
 import com.lamdo.physics.BoundingBox;
 import com.lamdo.render.Window;
+import com.lamdo.render.renderer.ShapeRenderer;
 import com.lamdo.util.MathUtil;
 import com.lamdo.util.Time;
 import com.lamdo.world.World;
@@ -45,6 +46,12 @@ public class Player extends PhysicsEntity {
         velocity = velocity.add(MathUtil.forwardVector(rotation.y).mul(input.z * speed)).add(MathUtil.rightVector(rotation.y).mul(input.x * speed));
 
         processMovement();
+
+        // draw bounding box
+        ShapeRenderer.drawBoxCenteredBottom(position, boundingBox, new Vector3f(1, 1, 1));
+
+        // draw crosshair
+        ShapeRenderer.drawDebugCrosshair();
 
     }
 

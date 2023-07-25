@@ -38,6 +38,14 @@ public class Loader {
         return new RawModel(vaoID, indices.length);
     }
 
+    public static RawModel loadToVAO(float[] positions, float[] colors) {
+        int vaoID = createVAO();
+        storeDataInAttributeList(0, 3, positions);
+        storeDataInAttributeList(1, 3, colors);
+        unbindVAO();
+        return new RawModel(vaoID, positions.length / 3);
+    }
+
     public static int loadTexture(String filepath) {
         TextureData data = decodeTextureFile(filepath);
         int textureID = glGenTextures();
