@@ -1,5 +1,6 @@
 package com.lamdo.render;
 
+import com.lamdo.util.Time;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -31,6 +32,7 @@ public class Window {
 
         // Configure the window
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+        glfwWindowHint(GLFW_FOCUSED, GLFW_TRUE);
 
         // Create the window
         window = glfwCreateWindow(600, 600, "LuisCraft", NULL, NULL);
@@ -43,6 +45,7 @@ public class Window {
         // Setup the callbacks
         glfwSetWindowSizeCallback(window, this::windowResized);
         glfwSetScrollCallback(window, this::mouseScrolled);
+        glfwSetKeyCallback(window, this::keyCallback);
 
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
@@ -50,6 +53,8 @@ public class Window {
         glfwSwapInterval(1);
 
         GL.createCapabilities();
+
+        Time.init();
 
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         glfwSetCursorPos(window, 0, 0);
@@ -97,6 +102,7 @@ public class Window {
 
         // Poll for window events like key callbacks
         glfwPollEvents();
+        Time.updateTime();
     }
 
     public boolean shouldClose() {
@@ -106,6 +112,7 @@ public class Window {
     public void terminate() {
         glfwSetWindowSizeCallback(window, null).free();
         glfwSetScrollCallback(window, null).free();
+        glfwSetKeyCallback(window, null).free();
         glfwTerminate();
     }
 
@@ -124,6 +131,12 @@ public class Window {
     private void mouseScrolled(long window, double xoffset, double yoffset) {
         mouseDW = yoffset;
         System.out.println(yoffset);
+    }
+
+    private void keyCallback(long window, int key, int scancode, int action, int mods) {
+        if(key == GLFW_KEY_F11 && action == GLFW_PRESS) {
+            toggleFullscreen();
+        }
     }
 
     public static double getMouseDWheel() {

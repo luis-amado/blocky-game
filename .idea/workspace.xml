@@ -4,12 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="World with multiple chunks">
+    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Chunks now also look for their neighbors to avoid rendering duplicate faces">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/Entity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/PhysicsEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/physics/AABB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/physics/BoundingBox.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/physics/IntersectData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/Time.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/block/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/block/Block.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Camera.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/VoxelRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/VoxelRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/MasterRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/MasterRenderer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/util/MathUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/MathUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/world/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/World.java" afterDir="false" />
@@ -40,6 +48,7 @@
         <option value="Enum" />
         <option value="package-info" />
         <option value="Record" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -89,7 +98,7 @@
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.30614203",
-    "settings.editor.selected.configurable": "preferences.editor"
+    "settings.editor.selected.configurable": "preferences.keymap"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -207,7 +216,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690238401126</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Chunks now also look for their neighbors to avoid rendering duplicate faces">
+      <option name="closed" value="true" />
+      <created>1690249158459</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1690249158460</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -245,7 +262,8 @@
     <MESSAGE value="Generate mipmaps manually to avoid texture bleeding" />
     <MESSAGE value="Chunk with multiple blocks" />
     <MESSAGE value="World with multiple chunks" />
-    <option name="LAST_COMMIT_MESSAGE" value="World with multiple chunks" />
+    <MESSAGE value="Chunks now also look for their neighbors to avoid rendering duplicate faces" />
+    <option name="LAST_COMMIT_MESSAGE" value="Chunks now also look for their neighbors to avoid rendering duplicate faces" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

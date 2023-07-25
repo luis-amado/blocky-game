@@ -1,6 +1,7 @@
 package com.lamdo;
 
 import com.lamdo.entity.player.Camera;
+import com.lamdo.entity.player.Player;
 import com.lamdo.render.Loader;
 import com.lamdo.render.Window;
 import com.lamdo.render.model.RawModel;
@@ -28,11 +29,12 @@ public class Main {
 
         // Set the texture that the voxels will use
         VoxelModel.setTexture(Loader.loadTextureAtlas("/textures/atlas.png"), 4);
+        World world = new World();
 
         MasterRenderer renderer = new MasterRenderer();
-        Camera camera = new Camera(new Vector3f(0, 45, 0), 0, 0);
+        Player player = new Player(new Vector3f(0, 45, 0), world);
+        Camera camera = new Camera(player);
 
-        World world = new World();
         world.generateTerrains();
         world.generateMeshes();
 
@@ -40,7 +42,7 @@ public class Main {
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(0, 0, 0, 1);
 
-            camera.move();
+            player.move();
 
             renderer.render(world, camera);
 

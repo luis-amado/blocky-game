@@ -2,7 +2,6 @@ package com.lamdo.render.renderer;
 
 import com.lamdo.entity.player.Camera;
 import com.lamdo.render.Window;
-import com.lamdo.render.model.VoxelModel;
 import com.lamdo.render.shader.VoxelShader;
 import com.lamdo.util.MathUtil;
 import com.lamdo.world.World;
@@ -63,7 +62,7 @@ public class MasterRenderer {
 
     private Matrix4f createProjectionMatrix() {
         Matrix4f matrix = new Matrix4f();
-        matrix.setPerspective(FOV, Window.getAspectRatio(), NEAR_PLANE, FAR_PLANE);
+        matrix.setPerspective((float)Math.toRadians(FOV), Window.getAspectRatio(), NEAR_PLANE, FAR_PLANE);
         return matrix;
     }
 

@@ -35,7 +35,8 @@ public class Chunk {
     public void generateTerrain() {
         for(int x = 0; x < WIDTH; x++) {
             for(int z = 0; z < WIDTH; z++) {
-                int terrainHeight = 40;
+                Vector3i worldCoords = toWorldCoord(x, 0, z);
+                int terrainHeight = 30+(int)(Math.sin((worldCoords.x + worldCoords.z) / 5f) * 4);
                 for (int y = 0; y < HEIGHT; y++) {
                     if(y > terrainHeight) {
                         setBlockLocal(x, y, z, Blocks.AIR);

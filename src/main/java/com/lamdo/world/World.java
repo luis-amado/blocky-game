@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class World {
 
-    private final int RENDER_DISTANCE = 1;
+    private final int RENDER_DISTANCE = 2;
 
     private Map<Vector2i, Chunk> chunks;
 

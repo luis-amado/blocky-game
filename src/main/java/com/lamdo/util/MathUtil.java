@@ -46,4 +46,8 @@ public class MathUtil {
         return (a % b + b) % b;
     }
 
+    public static int floorToInt(float a) {
+        return (int)Math.floor(a);
+    }
+
 }
