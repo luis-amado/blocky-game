@@ -4,8 +4,8 @@ import com.lamdo.entity.player.Camera;
 import com.lamdo.render.model.RawModel;
 import com.lamdo.render.model.VoxelModel;
 import com.lamdo.render.shader.VoxelShader;
-import com.lamdo.world.Chunk;
 import com.lamdo.world.World;
+import com.lamdo.world.Chunk;
 import org.joml.Matrix4f;
 
 import static org.lwjgl.opengl.GL33.*;

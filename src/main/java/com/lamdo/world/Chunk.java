@@ -13,17 +13,20 @@ import org.joml.Vector3i;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Chunk {
 
     public static final int WIDTH = 16;
     public static final int HEIGHT = 128;
 
+    private World world;
     private Vector2i coord;
     private VoxelModel voxelModel;
     private short[] blockstates;
 
-    public Chunk(int x, int z) {
+    public Chunk(int x, int z, World world) {
+        this.world = world;
         this.coord = new Vector2i(x, z);
         voxelModel = new VoxelModel(new Vector3f(x * WIDTH, 0, z * WIDTH));
         blockstates = new short[WIDTH * HEIGHT * WIDTH];
@@ -34,7 +37,6 @@ public class Chunk {
             for(int z = 0; z < WIDTH; z++) {
                 int terrainHeight = 40;
                 for (int y = 0; y < HEIGHT; y++) {
-
                     if(y > terrainHeight) {
                         setBlockLocal(x, y, z, Blocks.AIR);
                     } else if (y == terrainHeight) {
@@ -67,16 +69,15 @@ public class Chunk {
             for(int z = 0; z < WIDTH; z++) {
                 for (int y = 0; y < HEIGHT; y++) {
 
-                    short blockstateID = getBlockstateLocal(x, y, z);
-                    Blockstate blockstate = Blockstate.fromID(blockstateID);
+                    Blockstate blockstate = getBlockstateLocal(x, y, z);
                     Block block = blockstate.getBlock();
                     if(!block.isSolid()) continue; // skip air blocks
                     for(Direction face: Direction.values()) {
 
                         // check if there is a block obstructing this face
                         Vector3i faceNormal = face.getNormal();
-                        short faceBlockstate = getBlockstateLocal(x + faceNormal.x, y + faceNormal.y, z + faceNormal.z);
-                        Block faceBlock = Blockstate.fromID(faceBlockstate).getBlock();
+                        Blockstate faceBlockstate = getBlockstateLocal(x + faceNormal.x, y + faceNormal.y, z + faceNormal.z);
+                        Block faceBlock = faceBlockstate.getBlock();
                         if(faceBlock.isSolid()) continue;
 
                         float[] facePositions = face.getFaceVoxelVertices(x, y, z);
@@ -95,11 +96,17 @@ public class Chunk {
         voxelModel.setModel(Loader.loadToVAO(positions, textureCoords, indices));
     }
 
-    private short getBlockstateLocal(int x, int y, int z) {
+    private Vector3i toWorldCoord(int x, int y, int z) {
+        return new Vector3i(x + coord.x * WIDTH, y, z + coord.y * WIDTH);
+    }
+
+    public Blockstate getBlockstateLocal(int x, int y, int z) {
         if(isInsideChunkLocal(x, y, z)) {
-            return blockstates[index(x, y, z)];
+            return Blockstate.fromID(blockstates[index(x, y, z)]);
         } else {
-            return 0; // act like air if it is outside the chunk
+            // We need to know a block that is outside this chunk so we ask the world.
+            Vector3i worldCoord = toWorldCoord(x, y, z);
+            return world.getBlockstate(worldCoord.x, worldCoord.y, worldCoord.z);
         }
     }
 

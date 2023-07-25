@@ -4,15 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Chunk with multiple blocks">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/World.java" afterDir="false" />
+    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="World with multiple chunks">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Camera.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Loader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Loader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/MasterRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/MasterRenderer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/VoxelRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/VoxelRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/util/MathUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/MathUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/world/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/World.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,7 +199,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690234959102</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="World with multiple chunks">
+      <option name="closed" value="true" />
+      <created>1690238401126</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1690238401126</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -236,7 +244,8 @@
     <MESSAGE value="Stop rendering faces that are not visible" />
     <MESSAGE value="Generate mipmaps manually to avoid texture bleeding" />
     <MESSAGE value="Chunk with multiple blocks" />
-    <option name="LAST_COMMIT_MESSAGE" value="Chunk with multiple blocks" />
+    <MESSAGE value="World with multiple chunks" />
+    <option name="LAST_COMMIT_MESSAGE" value="World with multiple chunks" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

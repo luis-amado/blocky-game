@@ -30,7 +30,7 @@ public class Main {
         VoxelModel.setTexture(Loader.loadTextureAtlas("/textures/atlas.png"), 4);
 
         MasterRenderer renderer = new MasterRenderer();
-        Camera camera = new Camera();
+        Camera camera = new Camera(new Vector3f(0, 45, 0), 0, 0);
 
         World world = new World();
         world.generateTerrains();

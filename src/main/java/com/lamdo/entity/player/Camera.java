@@ -67,6 +67,9 @@ public class Camera {
         yaw = (float) (mousePos.x * 0.1f);
         pitch = (float) (mousePos.y * 0.1f);
 
+        speed += Window.getMouseDWheel() * 0.05f;
+        speed = Math.max(0.05f, speed);
+
         position
             .add(MathUtil.forwardVector(yaw).mul(inputZ).mul(speed))
             .add(MathUtil.rightVector(yaw).mul(inputX).mul(speed))

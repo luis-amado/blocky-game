@@ -42,4 +42,8 @@ public class MathUtil {
         return forward;
     }
 
+    public static int mod(int a, int b) {
+        return (a % b + b) % b;
+    }
+
 }

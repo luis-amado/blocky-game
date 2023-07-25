@@ -19,6 +19,7 @@ public class Window {
     private static boolean wasResized;
     private static boolean fullscreen = false;
     private static int xpos, ypos, width, height;
+    private static double mouseDW;
 
     public Window() {
 
@@ -39,8 +40,9 @@ public class Window {
             System.exit(-1);
         }
 
-        // Setup the resize callback
+        // Setup the callbacks
         glfwSetWindowSizeCallback(window, this::windowResized);
+        glfwSetScrollCallback(window, this::mouseScrolled);
 
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
@@ -81,6 +83,7 @@ public class Window {
         }
     }
 
+
     private void windowResized(long w, int width, int height) {
         glViewport(0, 0, width, height);
         wasResized = true;
@@ -88,6 +91,7 @@ public class Window {
 
     public void update() {
         wasResized = false;
+        mouseDW = 0;
         // Swap the color buffers to render the next frame
         glfwSwapBuffers(window);
 
@@ -101,6 +105,7 @@ public class Window {
 
     public void terminate() {
         glfwSetWindowSizeCallback(window, null).free();
+        glfwSetScrollCallback(window, null).free();
         glfwTerminate();
     }
 
@@ -114,6 +119,15 @@ public class Window {
     // Input managing should move to its own class
     public static boolean isKeyPressed(int keyCode) {
         return glfwGetKey(window, keyCode) == GLFW_PRESS;
+    }
+
+    private void mouseScrolled(long window, double xoffset, double yoffset) {
+        mouseDW = yoffset;
+        System.out.println(yoffset);
+    }
+
+    public static double getMouseDWheel() {
+        return mouseDW;
     }
 
     public static Vector2f getMousePosition() {
