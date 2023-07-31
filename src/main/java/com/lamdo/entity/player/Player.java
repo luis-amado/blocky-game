@@ -28,7 +28,7 @@ public class Player extends PhysicsEntity {
 
     @Override
     protected BoundingBox setBoundingBox() {
-        return new BoundingBox(0.6f, 1.75f);
+        return new BoundingBox(0.7f, 1.75f);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class Player extends PhysicsEntity {
 
         velocity.x = 0;
         velocity.z = 0;
-        velocity.y -= gravity * Time.getDeltaTime();
+        velocity.y = input.y * speed;
         velocity = velocity.add(MathUtil.forwardVector(rotation.y).mul(input.z * speed)).add(MathUtil.rightVector(rotation.y).mul(input.x * speed));
 
         processMovement();
@@ -76,6 +76,12 @@ public class Player extends PhysicsEntity {
         }
         if(Window.isKeyPressed(GLFW_KEY_A)) {
             input.x -= 1;
+        }
+        if(Window.isKeyPressed(GLFW_KEY_SPACE)) {
+            input.y += 1;
+        }
+        if(Window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
+            input.y -= 1;
         }
         if(input.lengthSquared() > 0)
             input.normalize();

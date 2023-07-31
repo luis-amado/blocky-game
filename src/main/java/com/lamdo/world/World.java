@@ -4,6 +4,7 @@ import com.lamdo.block.Blocks;
 import com.lamdo.block.util.Blockstate;
 import com.lamdo.util.MathUtil;
 import org.joml.Vector2i;
+import org.joml.Vector3i;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,6 +27,10 @@ public class World {
                 chunks.put(chunkCoord, newChunk);
             }
         }
+    }
+
+    public Blockstate getBlockstate(Vector3i blockPos) {
+        return getBlockstate(blockPos.x, blockPos.y, blockPos.z);
     }
 
     public Blockstate getBlockstate(int x, int y, int z) {

@@ -33,6 +33,7 @@ public class ShapeRenderer {
             glDrawArrays(shape.glDrawMode(), 0, shape.model().indexCount());
         }
         unbindModel();
+        shapes.clear();
     }
 
     private void prepareModel(ShapeModel shape, Camera camera) {
