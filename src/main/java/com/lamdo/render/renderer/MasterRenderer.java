@@ -14,7 +14,7 @@ import static org.lwjgl.opengl.GL33.*;
 public class MasterRenderer {
 
     private static final float FOV = 90;
-    private static final float NEAR_PLANE = 0.1f;
+    private static final float NEAR_PLANE = 0.01f;
     private static final float FAR_PLANE = 1000f;
 
     private static final Vector3f SKY_COLOR = new Vector3f(0, 0.5f, 0.5f);

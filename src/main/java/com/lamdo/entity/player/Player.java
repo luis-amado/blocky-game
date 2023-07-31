@@ -14,7 +14,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Player extends PhysicsEntity {
 
-    private float speed = 3f;
+    private float speed = 6f;
     private float sensitivity = 0.1f;
 
     private float gravity = 22f;
@@ -42,7 +42,8 @@ public class Player extends PhysicsEntity {
 
         velocity.x = 0;
         velocity.z = 0;
-        velocity.y = input.y * speed;
+        if(velocity.y > -25f)
+            velocity.y -= gravity * Time.getDeltaTime();
         velocity = velocity.add(MathUtil.forwardVector(rotation.y).mul(input.z * speed)).add(MathUtil.rightVector(rotation.y).mul(input.x * speed));
 
         processMovement();
@@ -77,12 +78,6 @@ public class Player extends PhysicsEntity {
         if(Window.isKeyPressed(GLFW_KEY_A)) {
             input.x -= 1;
         }
-        if(Window.isKeyPressed(GLFW_KEY_SPACE)) {
-            input.y += 1;
-        }
-        if(Window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
-            input.y -= 1;
-        }
         if(input.lengthSquared() > 0)
             input.normalize();
 
@@ -90,6 +85,10 @@ public class Player extends PhysicsEntity {
         if(grounded && Window.isKeyPressed(GLFW_KEY_SPACE)) {
             velocity.y = jumpStrength;
         }
+
+        //changing speed
+        speed += Window.getMouseDWheel() * 0.5f;
+        speed = Math.max(0, speed);
     }
 
 }

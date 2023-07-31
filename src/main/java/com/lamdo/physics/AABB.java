@@ -119,12 +119,20 @@ public class AABB {
 
     }
 
-    public List<Vector3i> collidingBlocks(Vector3f offset) {
+    public List<Vector3i> collidingBlocks(AABB to) {
         List<Vector3i> positions = new ArrayList<Vector3i>();
-        // start at the minExtent and check a grid of blocks
-        for(float x = minExtent.x + offset.x; x <= Math.ceil(maxExtent.x+ offset.x); x++) {
-            for(float y = minExtent.y+ offset.y; y <= Math.ceil(maxExtent.y+ offset.y); y++) {
-                for(float z = minExtent.z+ offset.z; z <= Math.ceil(maxExtent.z+ offset.z); z++) {
+
+        float minX = Math.min(minExtent.x, to.minExtent.x);
+        float minY = Math.min(minExtent.y, to.minExtent.y);
+        float minZ = Math.min(minExtent.z, to.minExtent.z);
+        float maxX = (float) Math.ceil(Math.max(maxExtent.x, to.maxExtent.x));
+        float maxY = (float) Math.ceil(Math.max(maxExtent.y, to.maxExtent.y));
+        float maxZ = (float) Math.ceil(Math.max(maxExtent.z, to.maxExtent.z));
+
+        // start at the minExtent and check a grid of blocks until the end bounding box
+        for(float x = minX; x <= maxX; x++) {
+            for(float y = minY; y <= maxY; y++) {
+                for(float z = minZ; z <= maxZ; z++) {
                     int xPos = MathUtil.floorToInt(x);
                     int yPos = MathUtil.floorToInt(y);
                     int zPos = MathUtil.floorToInt(z);
@@ -133,6 +141,20 @@ public class AABB {
                 }
             }
         }
+
+
+
+//        for(float x = minExtent.x + offset.x; x <= Math.ceil(maxExtent.x+ offset.x); x++) {
+//            for(float y = minExtent.y+ offset.y; y <= Math.ceil(maxExtent.y+ offset.y); y++) {
+//                for(float z = minExtent.z+ offset.z; z <= Math.ceil(maxExtent.z+ offset.z); z++) {
+//                    int xPos = MathUtil.floorToInt(x);
+//                    int yPos = MathUtil.floorToInt(y);
+//                    int zPos = MathUtil.floorToInt(z);
+//                    Vector3i pos = new Vector3i(xPos, yPos, zPos);
+//                    positions.add(pos);
+//                }
+//            }
+//        }
         return positions;
     }
 
