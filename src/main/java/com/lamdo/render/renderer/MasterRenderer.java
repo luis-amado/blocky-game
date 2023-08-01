@@ -2,6 +2,7 @@ package com.lamdo.render.renderer;
 
 import com.lamdo.entity.player.Camera;
 import com.lamdo.render.Window;
+import com.lamdo.render.shader.GUIShader;
 import com.lamdo.render.shader.ShapeShader;
 import com.lamdo.render.shader.VoxelShader;
 import com.lamdo.util.MathUtil;
@@ -25,11 +26,15 @@ public class MasterRenderer {
     private ShapeShader shapeShader = new ShapeShader();
     private ShapeRenderer shapeRenderer;
 
+    private GUIShader guiShader = new GUIShader();
+    private GUIRenderer guiRenderer;
+
     public MasterRenderer() {
         enableCulling();
         Matrix4f projectionMatrix = createProjectionMatrix();
         voxelRenderer = new VoxelRenderer(voxelShader, projectionMatrix);
         shapeRenderer = new ShapeRenderer(shapeShader, projectionMatrix);
+        guiRenderer = new GUIRenderer(guiShader);
     }
 
     public void render(World world, Camera camera) {
@@ -49,6 +54,8 @@ public class MasterRenderer {
         shapeShader.start();
         shapeRenderer.render(camera);
         shapeShader.stop();
+
+        guiRenderer.render();
     }
 
     public void cleanUp() {
@@ -60,8 +67,6 @@ public class MasterRenderer {
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(SKY_COLOR.x, SKY_COLOR.y, SKY_COLOR.z, 1);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
     public static void enableCulling() {

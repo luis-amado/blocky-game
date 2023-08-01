@@ -4,24 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Fixed the physics, more testing needed.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/Mesh.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/TargetedBlock.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/Vector3Util.java" afterDir="false" />
+    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Added placing and removing blocks">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/UIBlock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/constraints/ConstraintType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/constraints/PixelConstraint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/constraints/RelativeConstraint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/constraints/UIConstraint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/GUIRenderer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/shader/GUIShader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/shaders/gui.frag" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/shaders/gui.vert" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/block/Blocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/block/Blocks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/PhysicsEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/PhysicsEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Loader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Loader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/ShapeModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/ShapeModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/MasterRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/MasterRenderer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/ShapeRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/ShapeRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/util/Direction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/Direction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/world/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/World.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/shape.frag" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/shape.frag" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/shape.vert" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/shape.vert" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,8 +59,8 @@
         <option value="Enum" />
         <option value="package-info" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -267,7 +267,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690846680401</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Added placing and removing blocks">
+      <option name="closed" value="true" />
+      <created>1690852434202</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1690852434202</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -311,7 +319,8 @@
     <MESSAGE value="Added shapes for debugging" />
     <MESSAGE value="Fixed issue with shapes and removed physics because it needs a whole rework" />
     <MESSAGE value="Fixed the physics, more testing needed." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed the physics, more testing needed." />
+    <MESSAGE value="Added placing and removing blocks" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added placing and removing blocks" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -29,6 +29,9 @@ public class ShapeRenderer {
     }
 
     public void render(Camera camera) {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
         for(ShapeModel shape: shapes) {
             prepareModel(shape, camera);
             glDrawArrays(shape.glDrawMode(), 0, shape.model().indexCount());
@@ -44,10 +47,6 @@ public class ShapeRenderer {
         glEnableVertexAttribArray(1);
 
         Matrix4f viewMatrix;
-        if(shape.antialias())
-            glEnable(GL_MULTISAMPLE);
-        else
-            glDisable(GL_MULTISAMPLE);
         // static shapes dont move with respect to the camera
         if(shape.isStatic()) {
             viewMatrix = MathUtil.create3rdPersonStaticViewMatrix(camera, 1f);
@@ -64,7 +63,7 @@ public class ShapeRenderer {
     }
 
     private void unbindModel() {
-        glDisable(GL_MULTISAMPLE);
+        glDisable(GL_BLEND);
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         glBindVertexArray(0);
@@ -92,7 +91,7 @@ public class ShapeRenderer {
                 0, 1, 0, 1, 0, 1, 0, 1,
                 0, 0, 1, 1, 0, 0, 1, 1
         };
-        ShapeModel shape = new ShapeModel(new Vector3f(0, 0, 0), Loader.loadToVAO(positions, colors), GL_LINES, true, false);
+        ShapeModel shape = new ShapeModel(new Vector3f(0, 0, 0), Loader.loadToVAO(positions, colors), GL_LINES, true);
         processShape(shape);
     }
 
@@ -130,7 +129,7 @@ public class ShapeRenderer {
                 color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
                 color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w
         };
-        ShapeModel shape = new ShapeModel(position, Loader.loadToVAO(positions, colors), GL11.GL_LINES, false, true);
+        ShapeModel shape = new ShapeModel(position, Loader.loadToVAO(positions, colors), GL11.GL_LINES, false);
         processShape(shape);
     }
 
@@ -167,7 +166,7 @@ public class ShapeRenderer {
                 color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
                 color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w
         };
-        ShapeModel shape = new ShapeModel(position, Loader.loadToVAO(positions, colors), GL11.GL_LINES, false, true);
+        ShapeModel shape = new ShapeModel(position, Loader.loadToVAO(positions, colors), GL11.GL_LINES, false);
         processShape(shape);
     }
 

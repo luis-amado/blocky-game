@@ -35,7 +35,6 @@ public class Window {
         // Configure the window
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
         glfwWindowHint(GLFW_FOCUSED, GLFW_TRUE);
-        glfwWindowHint(GLFW_SAMPLES, 4);
 
         // Create the window
         window = glfwCreateWindow(600, 600, "LuisCraft", NULL, NULL);
@@ -65,6 +64,20 @@ public class Window {
         if (glfwRawMouseMotionSupported())
             glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
+    }
+
+    public static int getWidthInPixels() {
+        IntBuffer widthB = org.lwjglx.BufferUtils.createIntBuffer(1);
+        IntBuffer heightB = org.lwjglx.BufferUtils.createIntBuffer(1);
+        glfwGetWindowSize(window, widthB, heightB);
+        return widthB.get(0);
+    }
+
+    public static int getHeightInPixels() {
+        IntBuffer widthB = org.lwjglx.BufferUtils.createIntBuffer(1);
+        IntBuffer heightB = org.lwjglx.BufferUtils.createIntBuffer(1);
+        glfwGetWindowSize(window, widthB, heightB);
+        return heightB.get(0);
     }
 
     public static void toggleFullscreen() {

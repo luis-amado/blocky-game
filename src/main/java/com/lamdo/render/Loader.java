@@ -29,6 +29,7 @@ public class Loader {
         return new RawModel(vaoID, indices.size());
     }
 
+    // used for voxels
     public static RawModel loadToVAO(float[] positions, float[] textureCoords, int[] indices) {
         int vaoID = createVAO();
         bindIndicesBuffer(indices);
@@ -38,6 +39,15 @@ public class Loader {
         return new RawModel(vaoID, indices.length);
     }
 
+    // used for gui
+    public static RawModel loadToVAO(float[] positions) {
+        int vaoID = createVAO();
+        storeDataInAttributeList(0, 2, positions);
+        unbindVAO();
+        return new RawModel(vaoID, positions.length / 2);
+    }
+
+    // used for shapes
     public static RawModel loadToVAO(float[] positions, float[] colors) {
         int vaoID = createVAO();
         storeDataInAttributeList(0, 3, positions);
