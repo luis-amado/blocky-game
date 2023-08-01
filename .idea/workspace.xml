@@ -4,32 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Added a gui system that allows responsive layouts using constraints">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/constraints/AspectRatioConstraint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/constraints/RelativePlusPixelsConstraint.java" afterDir="false" />
+    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Added hierarchy to UI components">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/BaseUIComponent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/Hotbar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/UIComponent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/block/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/block/Block.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/PhysicsEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/PhysicsEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Camera.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/UIBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/UIBlock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/constraints/PixelConstraint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/constraints/PixelConstraint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/constraints/RelativeConstraint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/constraints/RelativeConstraint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/constraints/UIConstraint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/constraints/UIConstraint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/physics/AABB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/physics/AABB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/physics/BoundingBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/physics/BoundingBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/physics/IntersectData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/physics/IntersectData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/GUIRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/GUIRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/ShapeRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/ShapeRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/shader/GUIShader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/shader/GUIShader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/shader/ShaderProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/shader/ShaderProgram.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/util/MathUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/MathUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/util/Vector3Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/Vector3Util.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/gui.frag" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/gui.frag" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/gui.vert" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/gui.vert" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -291,7 +271,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690871862447</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Added hierarchy to UI components">
+      <option name="closed" value="true" />
+      <created>1690929039710</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1690929039710</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -337,7 +325,8 @@
     <MESSAGE value="Fixed the physics, more testing needed." />
     <MESSAGE value="Added placing and removing blocks" />
     <MESSAGE value="Added a gui system that allows responsive layouts using constraints" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added a gui system that allows responsive layouts using constraints" />
+    <MESSAGE value="Added hierarchy to UI components" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added hierarchy to UI components" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
