@@ -1,5 +1,6 @@
 package com.lamdo.world;
 
+import com.lamdo.block.Block;
 import com.lamdo.block.Blocks;
 import com.lamdo.block.util.Blockstate;
 import com.lamdo.util.MathUtil;
@@ -26,6 +27,37 @@ public class World {
                 Vector2i chunkCoord = new Vector2i(x, z);
                 chunks.put(chunkCoord, newChunk);
             }
+        }
+    }
+
+    public void updateBlock(Vector3i blockPos, Block block) {
+        updateBlock(blockPos.x, blockPos.y, blockPos.z, block);
+    }
+
+    public void updateMesh(Vector3i blockPos) {
+        int x = blockPos.x;
+        int y = blockPos.y;
+        int z = blockPos.z;
+        if(isInsideWorld(x, y, z)) {
+            // find the coordinate of the chunk that contains this block
+            Vector2i chunkCoord = getChunkCoord(x, z);
+
+            // ask the chunk for the block
+            Chunk chunk = chunks.get(chunkCoord);
+            chunk.createMesh();
+        }
+    }
+
+    public void updateBlock(int x, int y, int z, Block block) {
+        if(isInsideWorld(x, y, z)) {
+            // find the coordinate of the chunk that contains this block
+            Vector2i chunkCoord = getChunkCoord(x, z);
+
+            // ask the chunk for the block
+            Chunk chunk = chunks.get(chunkCoord);
+            int localX = MathUtil.mod(x, Chunk.WIDTH);
+            int localZ = MathUtil.mod(z, Chunk.WIDTH);
+            chunk.updateBlockLocal(localX, y, localZ, block);
         }
     }
 
@@ -71,7 +103,7 @@ public class World {
 
     public void generateMeshes() {
         for(Chunk chunk: chunks.values()) {
-            chunk.generateMesh();
+            chunk.createMesh();
         }
     }
 

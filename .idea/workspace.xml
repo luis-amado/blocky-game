@@ -4,12 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Fixed issue with shapes and removed physics because it needs a whole rework">
+    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Fixed the physics, more testing needed.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/Mesh.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/TargetedBlock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/Vector3Util.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/block/Blocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/block/Blocks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/PhysicsEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/PhysicsEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/physics/AABB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/physics/AABB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Loader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Loader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/ShapeModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/ShapeModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/MasterRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/MasterRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/ShapeRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/ShapeRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/util/Direction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/util/Direction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/world/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/World.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/shape.frag" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/shape.frag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/shape.vert" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/shape.vert" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,9 +58,9 @@
       <list>
         <option value="Enum" />
         <option value="package-info" />
-        <option value="Record" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Record" />
       </list>
     </option>
   </component>
@@ -247,7 +259,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690786012720</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Fixed the physics, more testing needed.">
+      <option name="closed" value="true" />
+      <created>1690846680401</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1690846680401</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -290,7 +310,8 @@
     <MESSAGE value="Player movement and collision using axis aligned bounding boxes and the swept collision algorithm. &#10;There are still some issues to figure out with the physics." />
     <MESSAGE value="Added shapes for debugging" />
     <MESSAGE value="Fixed issue with shapes and removed physics because it needs a whole rework" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed issue with shapes and removed physics because it needs a whole rework" />
+    <MESSAGE value="Fixed the physics, more testing needed." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed the physics, more testing needed." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

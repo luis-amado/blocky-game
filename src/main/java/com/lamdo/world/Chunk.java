@@ -4,12 +4,14 @@ import com.lamdo.block.Block;
 import com.lamdo.block.Blocks;
 import com.lamdo.block.util.Blockstate;
 import com.lamdo.render.Loader;
+import com.lamdo.render.model.Mesh;
 import com.lamdo.render.model.VoxelModel;
 import com.lamdo.util.ArrayUtils;
 import com.lamdo.util.Direction;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
+import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +61,25 @@ public class Chunk {
         blockstates[index(x, y, z)] = block.getDefaultBlockstate().getID();
     }
 
-    public void generateMesh() {
+    public void updateBlockLocal(int x, int y, int z, Block block) {
+        blockstates[index(x, y, z)] = block.getDefaultBlockstate().getID();
+        createMesh();
+        for(Direction face: Direction.horizontalDirections()) {
+            Vector3i pos = new Vector3i(x,y,z);
+            pos.add(face.getNormal());
+            if(!isInThisChunk(pos.x, pos.z)) {
+                Vector3i worldPos = toWorldCoord(pos.x, pos.y, pos.z);
+                world.updateMesh(worldPos);
+            }
+        }
+    }
+
+    public void createMesh() {
+        Mesh mesh = generateMesh();
+        voxelModel.setModel(Loader.loadToVAO(mesh.positions(), mesh.textureCoords(), mesh.indices()));
+    }
+
+    private Mesh generateMesh() {
         List<Float> positions = new ArrayList<Float>();
         List<Float> textureCoords = new ArrayList<Float>();
         List<Integer> indices = new ArrayList<Integer>();
@@ -94,7 +114,7 @@ public class Chunk {
                 }
             }
         }
-        voxelModel.setModel(Loader.loadToVAO(positions, textureCoords, indices));
+        return new Mesh(positions, textureCoords, indices);
     }
 
     private Vector3i toWorldCoord(int x, int y, int z) {
@@ -113,6 +133,10 @@ public class Chunk {
 
     private boolean isInsideChunkLocal(int x, int y, int z) {
         return x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && z >= 0 && z < WIDTH;
+    }
+
+    private boolean isInThisChunk(int x, int z) {
+        return x >= 0 && x < WIDTH && z >= 0 && z < WIDTH;
     }
 
     private int index(int x, int y, int z) {

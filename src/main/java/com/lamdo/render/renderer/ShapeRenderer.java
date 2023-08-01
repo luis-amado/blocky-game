@@ -9,6 +9,7 @@ import com.lamdo.render.shader.ShapeShader;
 import com.lamdo.util.MathUtil;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -43,6 +44,10 @@ public class ShapeRenderer {
         glEnableVertexAttribArray(1);
 
         Matrix4f viewMatrix;
+        if(shape.antialias())
+            glEnable(GL_MULTISAMPLE);
+        else
+            glDisable(GL_MULTISAMPLE);
         // static shapes dont move with respect to the camera
         if(shape.isStatic()) {
             viewMatrix = MathUtil.create3rdPersonStaticViewMatrix(camera, 1f);
@@ -59,6 +64,7 @@ public class ShapeRenderer {
     }
 
     private void unbindModel() {
+        glDisable(GL_MULTISAMPLE);
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         glBindVertexArray(0);
@@ -82,15 +88,15 @@ public class ShapeRenderer {
                 0, 0, 0, 0, 0, length
         };
         float[] colors = new float[] {
-                1, 0, 0, 1, 0, 0,
-                0, 1, 0, 0, 1, 0,
-                0, 0, 1, 0, 0, 1
+                1, 0, 0, 1, 1, 0, 0, 1,
+                0, 1, 0, 1, 0, 1, 0, 1,
+                0, 0, 1, 1, 0, 0, 1, 1
         };
-        ShapeModel shape = new ShapeModel(new Vector3f(0, 0, 0), Loader.loadToVAO(positions, colors), GL_LINES, true);
+        ShapeModel shape = new ShapeModel(new Vector3f(0, 0, 0), Loader.loadToVAO(positions, colors), GL_LINES, true, false);
         processShape(shape);
     }
 
-    public static void drawBoxCenteredBottom(Vector3f position, BoundingBox box, Vector3f color) {
+    public static void drawBoxCenteredBottom(Vector3f position, BoundingBox box, Vector4f color) {
         float hw = box.getWidth() / 2f;
         float h = box.getHeight();
         float zprev = 0.001f;
@@ -115,20 +121,20 @@ public class ShapeRenderer {
                 -hw, h, -hw, hw, h, -hw
         };
         float[] colors = new float[] {
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z,
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z,
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z,
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z,
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z,
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z,
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z,
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w
         };
-        ShapeModel shape = new ShapeModel(position, Loader.loadToVAO(positions, colors), GL11.GL_LINES, false);
+        ShapeModel shape = new ShapeModel(position, Loader.loadToVAO(positions, colors), GL11.GL_LINES, false, true);
         processShape(shape);
     }
 
-    public static void drawBox(Vector3f position, BoundingBox box, Vector3f color) {
+    public static void drawBox(Vector3f position, BoundingBox box, Vector4f color) {
         float w = box.getWidth()+0.001f;
         float h = box.getHeight()+0.001f;
         float[] positions = new float[] {
@@ -152,16 +158,16 @@ public class ShapeRenderer {
                 0, h, 0, w, h, 0
         };
         float[] colors = new float[] {
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z,
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z,
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z,
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z,
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z,
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z,
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z,
-                color.x, color.y, color.z,color.x, color.y, color.z,color.x, color.y, color.z
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
+                color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w
         };
-        ShapeModel shape = new ShapeModel(position, Loader.loadToVAO(positions, colors), GL11.GL_LINES, false);
+        ShapeModel shape = new ShapeModel(position, Loader.loadToVAO(positions, colors), GL11.GL_LINES, false, true);
         processShape(shape);
     }
 

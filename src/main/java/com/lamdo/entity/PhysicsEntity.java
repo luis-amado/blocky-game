@@ -67,11 +67,17 @@ public abstract class PhysicsEntity extends Entity {
             // stop if a collision didnt occur
             if(!closestCollision.isIntersecting()) break;
 
-            // if the collision occured on a face that points up, it means we hit the ground and therefore can be grounded
-            if(closestCollision.getCollisionNormal().y > 0) {
+            // if the collision occured on a surface that points upward, it was the ground and we are now grounded
+            if(closestCollision.getCollisionNormal().y > 0)
                 grounded = true;
+
+            // If we collided in any specific axis, we should no longer move in that direction
+            if(closestCollision.getCollisionNormal().x != 0)
+                velocity.x = 0;
+            if(closestCollision.getCollisionNormal().y != 0)
                 velocity.y = 0;
-            }
+            if(closestCollision.getCollisionNormal().z != 0)
+                velocity.z = 0;
 
             // store the remaining time and velocity
             float remainingTime = 1f - closestCollision.getCollisionTime();

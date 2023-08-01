@@ -4,7 +4,6 @@ import com.lamdo.util.Time;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 
 import java.nio.DoubleBuffer;
@@ -21,6 +20,9 @@ public class Window {
     private static boolean fullscreen = false;
     private static int xpos, ypos, width, height;
     private static double mouseDW;
+    private static boolean[] mouseButtons = new boolean[2];
+
+    public static boolean debugMode;
 
     public Window() {
 
@@ -33,6 +35,7 @@ public class Window {
         // Configure the window
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
         glfwWindowHint(GLFW_FOCUSED, GLFW_TRUE);
+        glfwWindowHint(GLFW_SAMPLES, 4);
 
         // Create the window
         window = glfwCreateWindow(600, 600, "LuisCraft", NULL, NULL);
@@ -46,6 +49,7 @@ public class Window {
         glfwSetWindowSizeCallback(window, this::windowResized);
         glfwSetScrollCallback(window, this::mouseScrolled);
         glfwSetKeyCallback(window, this::keyCallback);
+        glfwSetMouseButtonCallback(window, this::mouseButton);
 
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
@@ -97,6 +101,8 @@ public class Window {
     public void update() {
         wasResized = false;
         mouseDW = 0;
+        mouseButtons[0] = false;
+        mouseButtons[1] = false;
         // Swap the color buffers to render the next frame
         glfwSwapBuffers(window);
 
@@ -128,14 +134,27 @@ public class Window {
         return glfwGetKey(window, keyCode) == GLFW_PRESS;
     }
 
+    public static boolean getMouseButton(int button) {
+        return mouseButtons[button];
+    }
+
+    private void mouseButton(long window, int button, int action, int mods) {
+        if(button < 2) {
+            mouseButtons[button] = action == GLFW_PRESS;
+        }
+    }
+
     private void mouseScrolled(long window, double xoffset, double yoffset) {
         mouseDW = yoffset;
         System.out.println(yoffset);
     }
 
     private void keyCallback(long window, int key, int scancode, int action, int mods) {
-        if(key == GLFW_KEY_F11 && action == GLFW_PRESS) {
+        if(action != GLFW_PRESS) return;
+        if(key == GLFW_KEY_F11) {
             toggleFullscreen();
+        } else if (key == GLFW_KEY_F3) {
+            debugMode = !debugMode;
         }
     }
 

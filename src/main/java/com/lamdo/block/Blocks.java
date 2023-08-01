@@ -9,5 +9,6 @@ public class Blocks {
     public static final Block GRASS = new Block("grass", BlockTexture.cubeSideUpDown(1, 2, 0));
     public static final Block STONE = new Block("stone", BlockTexture.cubeAll(3));
     public static final Block BEDROCK = new Block("bedrock", BlockTexture.cubeAll(4));
+    public static final Block DEEPSLATE_BRICKS = new Block("deepslate_bricks", BlockTexture.cubeAll(5));
 
 }
