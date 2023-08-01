@@ -1,11 +1,13 @@
 package com.lamdo.gui;
 
+import com.lamdo.gui.constraints.AspectRatioConstraint;
 import com.lamdo.gui.constraints.ConstraintType;
 import com.lamdo.gui.constraints.PixelConstraint;
 import com.lamdo.gui.constraints.UIConstraint;
 import com.lamdo.render.Loader;
 import com.lamdo.render.model.RawModel;
 import org.joml.Matrix4f;
+import org.joml.Vector4f;
 import org.lwjgl.system.CallbackI;
 
 public class UIBlock {
@@ -21,6 +23,20 @@ public class UIBlock {
 
     private boolean staticHorizontal = false;
     private boolean staticVertical = false;
+
+    private Vector4f color = new Vector4f(1, 1, 1, 1);
+
+    public UIBlock parent;
+
+    public UIBlock() {}
+    public UIBlock(UIBlock parent) {
+        this.parent = parent;
+    }
+
+    public UIBlock color(Vector4f color) {
+        this.color = color;
+        return this;
+    }
 
     public UIBlock left(UIConstraint left) {
         leftConstraint = left;
@@ -65,11 +81,13 @@ public class UIBlock {
     public UIBlock width(UIConstraint width) {
         widthConstraint = width;
         if(staticHorizontal) horizontalError();
+        widthConstraint.setUiBlock(this);
         return this;
     }
     public UIBlock height(UIConstraint height) {
         heightConstraint = height;
         if(staticVertical) verticalError();
+        heightConstraint.setUiBlock(this);
         return this;
     }
 
@@ -92,50 +110,124 @@ public class UIBlock {
         Matrix4f transformationMatrix = new Matrix4f();
 
         // calculate position and scale based on constraints
-        float left; // could be given or could be calculated based on right and width or based on centerx and width
-        if(leftConstraint != null) {
-            left = leftConstraint.value(ConstraintType.LEFT);
-        } else if(centerXConstraint != null) {
-            if(widthConstraint == null) constraintConfigurationError();
-            left = centerXConstraint.value(ConstraintType.CENTERX) * 2 - (widthConstraint.value(ConstraintType.WIDTH) / 2);
-        } else {
-            if(rightConstraint == null || widthConstraint == null) constraintConfigurationError();
-            left = rightConstraint.value(ConstraintType.RIGHT) - widthConstraint.value(ConstraintType.WIDTH);
-        }
-        float bottom; // could be given or could be calculared based on top and height or based on centery and width
-        if(bottomConstraint != null) {
-            bottom = bottomConstraint.value(ConstraintType.BOTTOM);
-        } else if (centerYConstraint != null) {
-            if(heightConstraint == null) constraintConfigurationError();
-            bottom = centerYConstraint.value(ConstraintType.CENTERY) * 2 - (heightConstraint.value(ConstraintType.HEIGHT) / 2);
-        } else {
-            if(topConstraint == null || heightConstraint == null) constraintConfigurationError();
-            bottom = topConstraint.value(ConstraintType.TOP) - heightConstraint.value(ConstraintType.HEIGHT);
-        }
-        float width; // could be given or could be calculated based on left and right
-        if(widthConstraint != null) {
-            width = widthConstraint.value(ConstraintType.WIDTH);
-        } else {
-            if(leftConstraint == null || rightConstraint == null) constraintConfigurationError();
-            width = rightConstraint.value(ConstraintType.RIGHT) - leftConstraint.value(ConstraintType.LEFT);
-        }
-        float height; // could be given or could be calculated based on top and bottom
-        if(heightConstraint != null) {
-            height = heightConstraint.value(ConstraintType.HEIGHT);
-        } else {
-            if(topConstraint == null || bottomConstraint == null) constraintConfigurationError();
-            height = topConstraint.value(ConstraintType.TOP) - bottomConstraint.value(ConstraintType.BOTTOM);
-        }
+        float left = calculateLeft();
+        float bottom = calculateBottom();
+        float width = calculateWidth();
+        float height = calculateHeight();
 
         transformationMatrix.translate(left, bottom, 0);
         transformationMatrix.scale(width, height, 0);
         return transformationMatrix;
     }
 
+    private float calculateLeft() {
+        float parentLeft, parentRight, parentCenterX;
+        if(parent != null) {
+            parentLeft = parent.calculateLeft();
+            parentRight = parentLeft + parent.calculateWidth();
+            parentCenterX = 1 - (parentLeft + parent.calculateWidth() / 2);
+        } else {
+            parentLeft = -1;
+            parentRight = 1;
+            parentCenterX = 0;
+        }
+
+        // the left position can be given, or has to be derived from the centerX/width or right/width
+        float left;
+        if(leftConstraint != null) {
+            left = parentLeft + 1 + leftConstraint.value(ConstraintType.LEFT);
+        } else if (centerXConstraint != null) {
+            if(widthConstraint == null) constraintConfigurationError();
+            left = centerXConstraint.value(ConstraintType.CENTERX) * 2 - (calculateWidth() / 2) - parentCenterX;
+        } else {
+            if(rightConstraint == null || widthConstraint == null) constraintConfigurationError();
+            left = parentRight - (1- rightConstraint.value(ConstraintType.RIGHT)) - calculateWidth();
+        }
+
+        return left;
+    }
+    private float calculateBottom() {
+        float parentBottom, parentTop, parentCenterY;
+        if(parent != null) {
+            parentBottom = parent.calculateBottom();
+            parentTop = parentBottom + parent.calculateHeight();
+            parentCenterY = 1 - (parentBottom + parent.calculateHeight() / 2);
+        } else {
+            parentBottom = -1;
+            parentTop = 1;
+            parentCenterY = 0;
+        }
+
+        float bottom; // could be given or could be calculared based on top and height or based on centery and width
+        if(bottomConstraint != null) {
+            bottom = parentBottom + 1 + bottomConstraint.value(ConstraintType.BOTTOM);
+        } else if (centerYConstraint != null) {
+            if(heightConstraint == null) constraintConfigurationError();
+            bottom = centerYConstraint.value(ConstraintType.CENTERY) * 2 - (calculateHeight() / 2) - parentCenterY;
+        } else {
+            if(topConstraint == null || heightConstraint == null) constraintConfigurationError();
+            bottom = parentTop - (1 - topConstraint.value(ConstraintType.TOP)) - calculateHeight();
+        }
+        return bottom;
+    }
+    private float calculateWidth() {
+        float parentWidth;
+        if(parent == null) {
+            parentWidth = 1;
+        } else {
+            parentWidth = parent.calculateWidth() / 2;
+        }
+
+        float width; // could be given or could be calculated based on left and right
+        if(widthConstraint != null) {
+            width = widthConstraint.value(ConstraintType.WIDTH, parentWidth);
+        } else {
+            if(leftConstraint == null || rightConstraint == null) constraintConfigurationError();
+            width = rightConstraint.value(ConstraintType.RIGHT, parentWidth) - leftConstraint.value(ConstraintType.LEFT, parentWidth);
+        }
+        return width;
+    }
+    private float calculateHeight() {
+        float parentHeight;
+        if(parent == null) {
+            parentHeight = 1;
+        } else {
+            parentHeight = parent.calculateHeight() / 2;
+        }
+
+        float height; // could be given or could be calculated based on top and bottom
+        if(heightConstraint != null) {
+            height = heightConstraint.value(ConstraintType.HEIGHT, parentHeight);
+        } else {
+            if(topConstraint == null || bottomConstraint == null) constraintConfigurationError();
+            height = topConstraint.value(ConstraintType.TOP, parentHeight) - bottomConstraint.value(ConstraintType.BOTTOM, parentHeight);
+        }
+        return height;
+    }
+
+    public float calculateWidthNoAspectRatio() {
+        if(widthConstraint instanceof AspectRatioConstraint) {
+            System.err.println("Aspect ratio constraint can only describe one, width or height");
+            System.exit(-1);
+        }
+        return calculateWidth();
+    }
+    public float calculateHeightNoAspectRatio() {
+        if(heightConstraint instanceof AspectRatioConstraint) {
+            System.err.println("Aspect ratio constraint can only describe one, width or height");
+            System.exit(-1);
+        }
+        return calculateHeight();
+    }
+
     public static RawModel uiBlockModel = Loader.loadToVAO(new float[] {
             0, 1, 0, 0, 1, 0,
             1, 0, 1, 1, 0, 1
     });
+
+    public Vector4f getColor() {
+        return color;
+    }
 
 
 }

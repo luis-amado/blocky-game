@@ -3,6 +3,7 @@ package com.lamdo.entity.player;
 import com.lamdo.render.Window;
 import com.lamdo.util.MathUtil;
 import org.joml.Vector2f;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjglx.BufferUtils;
@@ -22,7 +23,8 @@ public class Camera {
     }
 
     public Vector3f getPosition() {
-        Vector3f pos = new Vector3f(player.getPosition());
+        Vector3d playerPos = player.getPosition();
+        Vector3f pos = new Vector3f((float) playerPos.x, (float) playerPos.y, (float) playerPos.z);
         return pos.add(0, player.getEyeHeight(), 0);
     }
 

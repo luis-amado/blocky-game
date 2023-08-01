@@ -1,18 +1,19 @@
 package com.lamdo.physics;
 
 import com.lamdo.block.util.Blockstate;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 public class IntersectData {
 
     private boolean intersecting;
-    private float collisionTime;
-    private Vector3f collisionNormal;
+    private double collisionTime;
+    private Vector3d collisionNormal;
     private Blockstate blockstate;
     private Vector3i blockpos;
 
-    public IntersectData(boolean intersecting, float time, Vector3f normal) {
+    public IntersectData(boolean intersecting, double time, Vector3d normal) {
         this.intersecting = intersecting;
         this.collisionTime = time;
         this.collisionNormal = normal;
@@ -32,18 +33,18 @@ public class IntersectData {
     }
 
     public static IntersectData noCollision() {
-        return new IntersectData(false, 1f, new Vector3f());
+        return new IntersectData(false, 1f, new Vector3d());
     }
 
     public boolean isIntersecting() {
         return intersecting;
     }
 
-    public float getCollisionTime() {
+    public double getCollisionTime() {
         return collisionTime;
     }
 
-    public Vector3f getCollisionNormal() {
+    public Vector3d getCollisionNormal() {
         return collisionNormal;
     }
 

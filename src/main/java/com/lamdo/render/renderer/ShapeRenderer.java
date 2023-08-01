@@ -64,6 +64,7 @@ public class ShapeRenderer {
 
     private void unbindModel() {
         glDisable(GL_BLEND);
+        glEnable(GL_DEPTH_TEST);
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         glBindVertexArray(0);

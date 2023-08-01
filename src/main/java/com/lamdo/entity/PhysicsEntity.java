@@ -9,6 +9,7 @@ import com.lamdo.render.renderer.ShapeRenderer;
 import com.lamdo.util.Time;
 import com.lamdo.world.World;
 import org.joml.Vector2f;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
@@ -19,12 +20,12 @@ public abstract class PhysicsEntity extends Entity {
     protected World world;
     protected BoundingBox boundingBox;
 
-    protected Vector3f velocity;
+    protected Vector3d velocity;
     public boolean grounded;
 
-    public PhysicsEntity(Vector3f position, World world) {
+    public PhysicsEntity(Vector3d position, World world) {
         super(position, new Vector2f());
-        velocity = new Vector3f();
+        velocity = new Vector3d();
         this.world = world;
         this.boundingBox = setBoundingBox();
     }
@@ -36,7 +37,7 @@ public abstract class PhysicsEntity extends Entity {
         // objective: modify the velocity that will be aplied to prevent collision
 
         // create a copy of the velocity, multiplied by delta time to represent the desired amount to move in this frame
-        Vector3f processVelocity = new Vector3f(velocity);
+        Vector3d processVelocity = new Vector3d(velocity);
         processVelocity.mul((float)Time.getDeltaTime());
 
         // repeat a maximum of 3 times
@@ -48,14 +49,14 @@ public abstract class PhysicsEntity extends Entity {
             AABB aabb = boundingBox.toAABB(position);
 
             // loop through all the blocks that collide with the bounding box from its current position, to its desired position
-            Vector3f finalPosition = new Vector3f(position);
+            Vector3d finalPosition = new Vector3d(position);
             finalPosition.add(processVelocity);
             AABB finalAABB = boundingBox.toAABB(finalPosition);
             for(Vector3i blockPos: aabb.collidingBlocks(finalAABB)) {
                 Blockstate blockstate = world.getBlockstate(blockPos);
                 if(!blockstate.getBlock().hasCollision()) continue; // Skip blocks with no collision
 
-                AABB blockAABB = new AABB(new Vector3f(blockPos), new Vector3f(blockPos.x+1, blockPos.y+1, blockPos.z+1));
+                AABB blockAABB = new AABB(new Vector3d(blockPos), new Vector3d(blockPos.x+1, blockPos.y+1, blockPos.z+1));
                 IntersectData collision = aabb.sweptAABB(blockAABB, processVelocity);
 
                 // store the closest collision
@@ -80,19 +81,19 @@ public abstract class PhysicsEntity extends Entity {
                 velocity.z = 0;
 
             // store the remaining time and velocity
-            float remainingTime = 1f - closestCollision.getCollisionTime();
-            Vector3f remainingVelocity = new Vector3f(processVelocity);
+            double remainingTime = 1f - closestCollision.getCollisionTime();
+            Vector3d remainingVelocity = new Vector3d(processVelocity);
             remainingVelocity.mul(remainingTime);
 
             // calculate sliding by projecting the remaining velocity onto the collision surface (normal)
-            Vector3f normal = new Vector3f(closestCollision.getCollisionNormal());
-            Vector3f slideProjection = normal.mul(remainingVelocity.dot(closestCollision.getCollisionNormal()));
-            Vector3f slideVelocity = new Vector3f(remainingVelocity);
+            Vector3d normal = new Vector3d(closestCollision.getCollisionNormal());
+            Vector3d slideProjection = normal.mul(remainingVelocity.dot(closestCollision.getCollisionNormal()));
+            Vector3d slideVelocity = new Vector3d(remainingVelocity);
             slideVelocity.sub(slideProjection);
 
             // modify the velocity by the collisionTime and also the calculated slide velocity
             processVelocity.mul(closestCollision.getCollisionTime());
-            processVelocity.add(closestCollision.getCollisionNormal().mul(0.0001f));
+            processVelocity.add(closestCollision.getCollisionNormal().mul(0.001f));
             processVelocity.add(slideVelocity);
         }
 

@@ -1,6 +1,7 @@
 package com.lamdo.physics;
 
 import com.lamdo.util.MathUtil;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
@@ -9,10 +10,10 @@ import java.util.List;
 
 public class AABB {
 
-    private Vector3f minExtent;
-    private Vector3f maxExtent;
+    private Vector3d minExtent;
+    private Vector3d maxExtent;
 
-    public AABB(Vector3f minExtent, Vector3f maxExtent) {
+    public AABB(Vector3d minExtent, Vector3d maxExtent) {
         this.minExtent = minExtent;
         this.maxExtent = maxExtent;
     }
@@ -24,9 +25,9 @@ public class AABB {
         return collisionX && collisionY && collisionZ;
     }
 
-    public IntersectData sweptAABB(AABB b2, Vector3f vel) {
-        float xInvEntry, yInvEntry, zInvEntry;
-        float xInvExit, yInvExit, zInvExit;
+    public IntersectData sweptAABB(AABB b2, Vector3d vel) {
+        double xInvEntry, yInvEntry, zInvEntry;
+        double xInvExit, yInvExit, zInvExit;
 
         //find the distance between the objects in the near and far sides (xyz)
 
@@ -56,8 +57,8 @@ public class AABB {
 
         //find time of collision (and time of exit) in each axis
         //value between 0 and 1 that determine when the collision occured between current pos and desired position
-        float xEntry, yEntry, zEntry;
-        float xExit, yExit, zExit;
+        double xEntry, yEntry, zEntry;
+        double xExit, yExit, zExit;
 
         if(vel.x == 0) {
             xEntry = Float.NEGATIVE_INFINITY;
@@ -84,8 +85,8 @@ public class AABB {
         }
 
         //find the earliest and latest times of collision
-        float entryTime = Math.max(xEntry, Math.max(yEntry, zEntry));
-        float exitTime = Math.min(xExit, Math.max(yExit, zExit));
+        double entryTime = Math.max(xEntry, Math.max(yEntry, zEntry));
+        double exitTime = Math.min(xExit, Math.max(yExit, zExit));
 
         //check for no collision
         if(entryTime > exitTime || (xEntry < 0 && yEntry < 0 && zEntry < 0) || xEntry > 1 || yEntry > 1 || zEntry > 1) {
@@ -93,24 +94,24 @@ public class AABB {
         } else {
             // there was a collision
             // we need to calculate the normal of the collided surface
-            Vector3f collisionNormal;
+            Vector3d collisionNormal;
             if (xEntry > yEntry && xEntry > zEntry) {
                 if (xInvEntry < 0) {
-                    collisionNormal = new Vector3f(1, 0, 0);
+                    collisionNormal = new Vector3d(1, 0, 0);
                 } else {
-                    collisionNormal = new Vector3f(-1, 0, 0);
+                    collisionNormal = new Vector3d(-1, 0, 0);
                 }
             } else if (yEntry > xEntry && yEntry > zEntry) {
                 if(yInvEntry < 0) {
-                    collisionNormal = new Vector3f(0, 1, 0);
+                    collisionNormal = new Vector3d(0, 1, 0);
                 } else {
-                    collisionNormal = new Vector3f(0, -1, 0);
+                    collisionNormal = new Vector3d(0, -1, 0);
                 }
             } else {
                 if(zInvEntry < 0) {
-                    collisionNormal = new Vector3f(0, 0, 1);
+                    collisionNormal = new Vector3d(0, 0, 1);
                 } else {
-                    collisionNormal = new Vector3f(0, 0, -1);
+                    collisionNormal = new Vector3d(0, 0, -1);
                 }
             }
             return new IntersectData(true, entryTime, collisionNormal);
@@ -122,17 +123,17 @@ public class AABB {
     public List<Vector3i> collidingBlocks(AABB to) {
         List<Vector3i> positions = new ArrayList<Vector3i>();
 
-        float minX = Math.min(minExtent.x, to.minExtent.x);
-        float minY = Math.min(minExtent.y, to.minExtent.y);
-        float minZ = Math.min(minExtent.z, to.minExtent.z);
-        float maxX = (float) Math.ceil(Math.max(maxExtent.x, to.maxExtent.x));
-        float maxY = (float) Math.ceil(Math.max(maxExtent.y, to.maxExtent.y));
-        float maxZ = (float) Math.ceil(Math.max(maxExtent.z, to.maxExtent.z));
+        double minX = Math.min(minExtent.x, to.minExtent.x);
+        double minY = Math.min(minExtent.y, to.minExtent.y);
+        double minZ = Math.min(minExtent.z, to.minExtent.z);
+        double maxX = (float) Math.ceil(Math.max(maxExtent.x, to.maxExtent.x));
+        double maxY = (float) Math.ceil(Math.max(maxExtent.y, to.maxExtent.y));
+        double maxZ = (float) Math.ceil(Math.max(maxExtent.z, to.maxExtent.z));
 
         // start at the minExtent and check a grid of blocks until the end bounding box
-        for(float x = minX; x <= maxX; x++) {
-            for(float y = minY; y <= maxY; y++) {
-                for(float z = minZ; z <= maxZ; z++) {
+        for(double x = minX; x <= maxX; x++) {
+            for(double y = minY; y <= maxY; y++) {
+                for(double z = minZ; z <= maxZ; z++) {
                     int xPos = MathUtil.floorToInt(x);
                     int yPos = MathUtil.floorToInt(y);
                     int zPos = MathUtil.floorToInt(z);
@@ -141,28 +142,14 @@ public class AABB {
                 }
             }
         }
-
-
-
-//        for(float x = minExtent.x + offset.x; x <= Math.ceil(maxExtent.x+ offset.x); x++) {
-//            for(float y = minExtent.y+ offset.y; y <= Math.ceil(maxExtent.y+ offset.y); y++) {
-//                for(float z = minExtent.z+ offset.z; z <= Math.ceil(maxExtent.z+ offset.z); z++) {
-//                    int xPos = MathUtil.floorToInt(x);
-//                    int yPos = MathUtil.floorToInt(y);
-//                    int zPos = MathUtil.floorToInt(z);
-//                    Vector3i pos = new Vector3i(xPos, yPos, zPos);
-//                    positions.add(pos);
-//                }
-//            }
-//        }
         return positions;
     }
 
-    public Vector3f getMinExtent() {
+    public Vector3d getMinExtent() {
         return minExtent;
     }
 
-    public Vector3f getMaxExtent() {
+    public Vector3d getMaxExtent() {
         return maxExtent;
     }
 

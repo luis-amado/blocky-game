@@ -11,7 +11,7 @@ public class PixelConstraint extends UIConstraint{
     }
 
     @Override
-    public float computeValue(ConstraintType type) {
+    public float computeValue(ConstraintType type, float parentValue) {
         if(type.isHorizontal()) {
             int displayWidth = Window.getWidthInPixels();
             if(type == ConstraintType.RIGHT) {

@@ -1,24 +1,25 @@
 package com.lamdo.entity;
 
 import org.joml.Vector2f;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 public class Entity {
 
-    protected Vector3f position;
+    protected Vector3d position;
     protected Vector2f rotation;
 
-    public Entity(Vector3f position, Vector2f rotation) {
+    public Entity(Vector3d position, Vector2f rotation) {
         this.position = position;
         this.rotation = rotation;
     }
 
     public Entity() {
-        this.position = new Vector3f();
+        this.position = new Vector3d();
         this.rotation = new Vector2f();
     }
 
-    public Vector3f getPosition() {
+    public Vector3d getPosition() {
         return position;
     }
 

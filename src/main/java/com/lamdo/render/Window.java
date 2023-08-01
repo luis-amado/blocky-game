@@ -53,7 +53,7 @@ public class Window {
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
         // Enable v-sync
-        glfwSwapInterval(1);
+//        glfwSwapInterval(1);
 
         GL.createCapabilities();
 
@@ -168,6 +168,8 @@ public class Window {
             toggleFullscreen();
         } else if (key == GLFW_KEY_F3) {
             debugMode = !debugMode;
+        } else if (key == GLFW_KEY_ESCAPE) {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         }
     }
 

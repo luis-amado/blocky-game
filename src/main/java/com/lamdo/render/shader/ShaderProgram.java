@@ -3,6 +3,7 @@ package com.lamdo.render.shader;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import static org.lwjgl.opengl.GL33.*;
 
@@ -69,6 +70,10 @@ public abstract class ShaderProgram {
 
     protected void loadVector2(int location, Vector2f vector) {
         glUniform2f(location, vector.x, vector.y);
+    }
+
+    protected void loadVector4(int location, Vector4f vector) {
+        glUniform4f(location, vector.x, vector.y, vector.z, vector.w);
     }
 
     protected void loadBoolean(int location, boolean value) {

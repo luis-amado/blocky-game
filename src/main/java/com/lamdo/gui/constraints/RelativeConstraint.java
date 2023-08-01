@@ -9,7 +9,11 @@ public class RelativeConstraint extends UIConstraint{
     }
 
     @Override
-    public float computeValue(ConstraintType type) {
-        return relativeValue;
+    public float computeValue(ConstraintType type, float parentValue) {
+        if(type.isCenter()) {
+            return relativeValue / 2 * parentValue;
+        } else {
+            return relativeValue * parentValue;
+        }
     }
 }

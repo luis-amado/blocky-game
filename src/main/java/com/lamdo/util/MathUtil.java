@@ -66,5 +66,8 @@ public class MathUtil {
     public static int floorToInt(float a) {
         return (int)Math.floor(a);
     }
+    public static int floorToInt(double a) {
+        return (int)Math.floor(a);
+    }
 
 }

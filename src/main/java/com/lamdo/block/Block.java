@@ -3,6 +3,7 @@ package com.lamdo.block;
 import com.lamdo.block.util.BlockTexture;
 import com.lamdo.block.util.Blockstate;
 import com.lamdo.physics.AABB;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 public class Block {
@@ -42,7 +43,7 @@ public class Block {
     }
 
     public AABB getAABB(int x, int y, int z) {
-        return new AABB(new Vector3f(x, y, z), new Vector3f(x + 1, y + 1, z + 1));
+        return new AABB(new Vector3d(x, y, z), new Vector3d(x + 1, y + 1, z + 1));
     }
 
 }

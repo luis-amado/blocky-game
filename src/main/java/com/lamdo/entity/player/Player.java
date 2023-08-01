@@ -8,19 +8,17 @@ import com.lamdo.render.Window;
 import com.lamdo.render.renderer.ShapeRenderer;
 import com.lamdo.util.*;
 import com.lamdo.world.World;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
-import org.joml.Vector3i;
-import org.joml.Vector4f;
+import org.joml.*;
 import org.lwjgl.system.CallbackI;
 
+import java.lang.Math;
 import java.lang.annotation.Target;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Player extends PhysicsEntity {
 
-    private float speed = 4f;
+    private float speed = 8f;
     private float sensitivity = 0.1f;
 
     private float gravity = 22f;
@@ -28,7 +26,7 @@ public class Player extends PhysicsEntity {
 
     private Vector3f input;
 
-    public Player (Vector3f position, World world) {
+    public Player (Vector3d position, World world) {
         super(position, world);
     }
 
@@ -56,7 +54,7 @@ public class Player extends PhysicsEntity {
 
         // draw bounding box
         if(Window.debugMode) {
-            ShapeRenderer.drawBoxCenteredBottom(position, boundingBox, new Vector4f(1, 1, 1, 1));
+            ShapeRenderer.drawBoxCenteredBottom(Vector3Util.castToFloat(position), boundingBox, new Vector4f(1, 1, 1, 1));
         }
         ShapeRenderer.drawDebugCrosshair();
 
@@ -79,7 +77,7 @@ public class Player extends PhysicsEntity {
                 Vector3i placePos = new Vector3i(lookingAt);
                 placePos.add(face.getNormal());
                 AABB aabb = boundingBox.toAABB(position);
-                AABB blockAABB = new AABB(new Vector3f(placePos), new Vector3f(placePos.x+1, placePos.y+1, placePos.z+1));
+                AABB blockAABB = new AABB(new Vector3d(placePos), new Vector3d(placePos.x+1, placePos.y+1, placePos.z+1));
                 if(!aabb.checkCollision(blockAABB))
                     world.updateBlock(placePos, Blocks.DEEPSLATE_BRICKS);
             }
@@ -88,25 +86,25 @@ public class Player extends PhysicsEntity {
     }
 
     private TargetedBlock findLookingAtBlock() {
-        Vector3f head = new Vector3f(position);
+        Vector3d head = new Vector3d(position);
         head.add(new Vector3f(0, getEyeHeight(), 0));
-        Vector3f prevPos = null;
+        Vector3d prevPos = null;
         Vector3i lookingAt = null;
         Direction face = null;
 
         // This implementation is fine for now but it might have to change at some point
         for(float d = 0f; d < 5; d+=0.1f) {
-            Vector3f currPos = new Vector3f(head);
+            Vector3d currPos = new Vector3d(head);
             currPos.add(MathUtil.forwardVector(getYaw(), getPitch()).mul(d));
             Vector3i currBlockPos = Vector3Util.floorToInt(currPos);
             if(prevPos != null && world.getBlockstate(currBlockPos.x, currBlockPos.y, currBlockPos.z).getBlock().isSolid()) {
                 // run binary search between outpos and currpos to find the closest block
                 for(int i = 0; i < 100; i++) {
-                    Vector3f distance = new Vector3f(currPos);
+                    Vector3d distance = new Vector3d(currPos);
                     if(distance.sub(prevPos).lengthSquared() < 0.00001f * 0.00001f) {
                         break;
                     }
-                    Vector3f middle = new Vector3f((currPos.x+prevPos.x)/2, (currPos.y+prevPos.y)/2, (currPos.z+prevPos.z)/2);
+                    Vector3d middle = new Vector3d((currPos.x+prevPos.x)/2, (currPos.y+prevPos.y)/2, (currPos.z+prevPos.z)/2);
                     Vector3i middlePos = Vector3Util.floorToInt(middle);
                     if(world.getBlockstate(middlePos.x, middlePos.y, middlePos.z).getBlock().isSolid()) {
                         currPos = middle;

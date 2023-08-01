@@ -1,5 +1,6 @@
 package com.lamdo.physics;
 
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 public class BoundingBox {
@@ -12,9 +13,9 @@ public class BoundingBox {
         this.height = height;
     }
 
-    public AABB toAABB(Vector3f position) {
-        Vector3f minExtent = new Vector3f(position.x - width / 2f, position.y, position.z - width / 2f);
-        Vector3f maxExtent = new Vector3f(position.x + width / 2f, position.y + height, position.z + width / 2f);
+    public AABB toAABB(Vector3d position) {
+        Vector3d minExtent = new Vector3d(position.x - width / 2f, position.y, position.z - width / 2f);
+        Vector3d maxExtent = new Vector3d(position.x + width / 2f, position.y + height, position.z + width / 2f);
         return new AABB(minExtent, maxExtent);
     }
 
