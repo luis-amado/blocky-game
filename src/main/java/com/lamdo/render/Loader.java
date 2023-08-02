@@ -1,6 +1,7 @@
 package com.lamdo.render;
 
 import com.lamdo.render.model.RawModel;
+import com.lamdo.render.texture.GLTexture;
 import com.lamdo.render.texture.TextureData;
 import com.lamdo.util.ArrayUtils;
 import org.lwjgl.BufferUtils;
@@ -40,9 +41,10 @@ public class Loader {
     }
 
     // used for gui
-    public static RawModel loadToVAO(float[] positions) {
+    public static RawModel loadToVAOGUI(float[] positions, float[] texCoords) {
         int vaoID = createVAO();
         storeDataInAttributeList(0, 2, positions);
+        storeDataInAttributeList(1, 2, texCoords);
         unbindVAO();
         return new RawModel(vaoID, positions.length / 2);
     }
@@ -56,7 +58,7 @@ public class Loader {
         return new RawModel(vaoID, positions.length / 3);
     }
 
-    public static int loadTexture(String filepath) {
+    public static GLTexture loadTexture(String filepath) {
         TextureData data = decodeTextureFile(filepath);
         int textureID = glGenTextures();
         textures.add(textureID);
@@ -71,7 +73,7 @@ public class Loader {
         glGenerateMipmap(GL_TEXTURE_2D);
 
         glBindTexture(GL_TEXTURE_2D, 0);
-        return textureID;
+        return new GLTexture(textureID, data.width(), data.height());
     }
 
     public static int loadTextureAtlas(String filepath) {

@@ -24,9 +24,12 @@ public class UIBlock {
     private boolean staticHorizontal = false;
     private boolean staticVertical = false;
 
-    private Vector4f color = new Vector4f(1, 1, 1, 1);
+    private Vector4f color = new Vector4f(1, 1, 1, 0);
+    private UITexture texture;
 
     public UIBlock parent;
+
+    private RawModel model;
 
     public UIBlock() {}
     public UIBlock(UIBlock parent) {
@@ -36,6 +39,19 @@ public class UIBlock {
     public UIBlock color(Vector4f color) {
         this.color = color;
         return this;
+    }
+
+    public UIBlock texture(UITexture texture) {
+        this.texture = texture;
+        return this;
+    }
+
+    public boolean hasTexture() {
+        return texture != null;
+    }
+
+    public UITexture getTexture() {
+        return texture;
     }
 
     public UIBlock left(UIConstraint left) {
@@ -220,14 +236,32 @@ public class UIBlock {
         return calculateHeight();
     }
 
-    public static RawModel uiBlockModel = Loader.loadToVAO(new float[] {
-            0, 1, 0, 0, 1, 0,
-            1, 0, 1, 1, 0, 1
-    });
+    public UIBlock build() {
+        float u, v, uu, vv;
+        if(hasTexture()) {
+            u = texture.u();
+            v = texture.v();
+            uu = texture.u() + texture.w();
+            vv = texture.v() + texture.h();
+        } else {
+            u = 0;
+            v = 0;
+            uu = 1;
+            vv = 1;
+        }
+        model = Loader.loadToVAOGUI(
+                new float[] {0,  1, 0, 0,  1, 0,  1, 0,  1,  1, 0,  1},
+                new float[] {u, v, u, vv, uu, vv, uu, vv, uu, v, u, v}
+        );
+        return this;
+    }
 
     public Vector4f getColor() {
         return color;
     }
 
 
+    public RawModel getModel() {
+        return model;
+    }
 }

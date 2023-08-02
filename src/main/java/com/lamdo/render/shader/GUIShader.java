@@ -7,6 +7,7 @@ public class GUIShader extends ShaderProgram{
 
     private int location_transform;
     private int location_color;
+    private int location_hasTexture;
 
     public GUIShader() {
         super("gui");
@@ -16,6 +17,7 @@ public class GUIShader extends ShaderProgram{
     protected void getAllUniformLocations() {
         location_transform = getUniformLocation("transform");
         location_color = getUniformLocation("color");
+        location_hasTexture = getUniformLocation("hasTexture");
     }
 
     public void setTransformationMatrix(Matrix4f transformationMatrix) {
@@ -24,5 +26,9 @@ public class GUIShader extends ShaderProgram{
 
     public void setColor(Vector4f color) {
         loadVector4(location_color, color);
+    }
+
+    public void setHasTexture(boolean hasTexture) {
+        loadBoolean(location_hasTexture, hasTexture);
     }
 }

@@ -23,15 +23,22 @@ public class GUIRenderer {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        glBindVertexArray(UIBlock.uiBlockModel.vaoID());
-        glEnableVertexAttribArray(0);
         for(UIBlock uiBlock: uiBlocks) {
+            glBindVertexArray(uiBlock.getModel().vaoID());
+            glEnableVertexAttribArray(0);
+            glEnableVertexAttribArray(1);
             shader.setTransformationMatrix(uiBlock.getTransformationMatrix());
             shader.setColor(uiBlock.getColor());
-            glDrawArrays(GL_TRIANGLES, 0, UIBlock.uiBlockModel.indexCount());
+            if(uiBlock.hasTexture()) {
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, uiBlock.getTexture().textureID());
+            }
+            shader.setHasTexture(uiBlock.hasTexture());
+            glDrawArrays(GL_TRIANGLES, 0, uiBlock.getModel().indexCount());
         }
         shader.stop();
         glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
         glBindVertexArray(0);
         glDisable(GL_BLEND);
 
