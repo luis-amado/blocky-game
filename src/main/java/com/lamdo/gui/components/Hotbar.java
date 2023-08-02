@@ -17,7 +17,7 @@ public class Hotbar extends TexturedUIComponent{
     UIBlock selectedSlotHighlight;
 
     private Block[] hotbarBlocks = new Block[] {
-            Blocks.GRASS, Blocks.DIRT, Blocks.STONE, Blocks.DEEPSLATE_BRICKS
+            Blocks.GRASS, Blocks.DIRT, Blocks.STONE, Blocks.DEEPSLATE_BRICKS, Blocks.OAK_LOG, Blocks.OAK_PLANKS
     };
 
     public Block getSelectedBlock() {

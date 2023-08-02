@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="The hotbar now allows you to select the block you want to place using the arrow keys">
+    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Change block using scroll wheel as well">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/block/Blocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/block/Blocks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/Hotbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/Hotbar.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -316,7 +317,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690955403372</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Change block using scroll wheel as well">
+      <option name="closed" value="true" />
+      <created>1690955700828</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1690955700828</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -367,7 +376,8 @@
     <MESSAGE value="UI Elements can now be textured" />
     <MESSAGE value="Available blocks can now be seen on the hotbar" />
     <MESSAGE value="The hotbar now allows you to select the block you want to place using the arrow keys" />
-    <option name="LAST_COMMIT_MESSAGE" value="The hotbar now allows you to select the block you want to place using the arrow keys" />
+    <MESSAGE value="Change block using scroll wheel as well" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change block using scroll wheel as well" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
