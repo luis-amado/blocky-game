@@ -5,6 +5,7 @@ import com.lamdo.block.Blocks;
 import com.lamdo.gui.UIBlock;
 import com.lamdo.gui.constraints.PixelConstraint;
 import com.lamdo.render.Window;
+import com.lamdo.util.MathUtil;
 import org.joml.Vector4f;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -60,6 +61,11 @@ public class Hotbar extends TexturedUIComponent{
                 return;
             }
         }
+
+        int newIndex = selectedIndex;
+        newIndex -= Math.floor(Window.getMouseDWheel());
+        newIndex = MathUtil.mod(newIndex, slots);
+        setSelectedIndex(newIndex);
     }
 
     private void setSelectedIndex(int selectedIndex) {
