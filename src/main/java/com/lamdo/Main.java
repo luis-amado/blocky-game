@@ -24,14 +24,15 @@ public class Main {
         VoxelModel.setTexture(Loader.loadTextureAtlas("/textures/atlas.png"), 4);
         World world = new World();
 
+        Hotbar hotbar = new Hotbar();
+
         MasterRenderer renderer = new MasterRenderer();
-        Player player = new Player(new Vector3d(0, 45, 0), world);
+        Player player = new Player(new Vector3d(0, 45, 0), world, hotbar);
         Camera camera = new Camera(player);
 
         world.generateTerrains();
         world.generateMeshes();
 
-        Hotbar hotbar = new Hotbar();
         Crosshair crosshair = new Crosshair();
 
         while(!window.shouldClose()) {
@@ -40,6 +41,7 @@ public class Main {
 
             player.move();
 
+            hotbar.update();
             hotbar.render();
             if(!Window.debugMode) crosshair.render();
             renderer.render(world, camera);

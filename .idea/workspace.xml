@@ -4,18 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="UI Elements can now be textured">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/Crosshair.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/HotbarSlot.java" afterDir="false" />
+    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Available blocks can now be seen on the hotbar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/UIBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/UIBlock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/BaseUIComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/BaseUIComponent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/Hotbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/Hotbar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/TexturedUIComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/TexturedUIComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/HotbarSlot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/HotbarSlot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/VoxelModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/VoxelModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/gui.frag" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/gui.frag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/textures/gui/hotbar.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/textures/gui/hotbar.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -301,7 +298,23 @@
       <option name="project" value="LOCAL" />
       <updated>1690939855542</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Available blocks can now be seen on the hotbar">
+      <option name="closed" value="true" />
+      <created>1690954038539</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1690954038539</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Available blocks can now be seen on the hotbar">
+      <option name="closed" value="true" />
+      <created>1690954050328</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1690954050328</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -350,7 +363,8 @@
     <MESSAGE value="Added hierarchy to UI components" />
     <MESSAGE value="Created a hotbar component using the ui library i built" />
     <MESSAGE value="UI Elements can now be textured" />
-    <option name="LAST_COMMIT_MESSAGE" value="UI Elements can now be textured" />
+    <MESSAGE value="Available blocks can now be seen on the hotbar" />
+    <option name="LAST_COMMIT_MESSAGE" value="Available blocks can now be seen on the hotbar" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

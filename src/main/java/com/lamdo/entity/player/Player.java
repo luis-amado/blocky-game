@@ -2,6 +2,7 @@ package com.lamdo.entity.player;
 
 import com.lamdo.block.Blocks;
 import com.lamdo.entity.PhysicsEntity;
+import com.lamdo.gui.components.Hotbar;
 import com.lamdo.physics.AABB;
 import com.lamdo.physics.BoundingBox;
 import com.lamdo.render.Window;
@@ -25,9 +26,11 @@ public class Player extends PhysicsEntity {
     private float jumpStrength = 7.3f;
 
     private Vector3f input;
+    private Hotbar hotbar;
 
-    public Player (Vector3d position, World world) {
+    public Player (Vector3d position, World world, Hotbar hotbar) {
         super(position, world);
+        this.hotbar = hotbar;
     }
 
     @Override
@@ -78,7 +81,7 @@ public class Player extends PhysicsEntity {
                 AABB aabb = boundingBox.toAABB(position);
                 AABB blockAABB = new AABB(new Vector3d(placePos), new Vector3d(placePos.x+1, placePos.y+1, placePos.z+1));
                 if(!aabb.checkCollision(blockAABB))
-                    world.updateBlock(placePos, Blocks.DEEPSLATE_BRICKS);
+                    world.updateBlock(placePos, hotbar.getSelectedBlock());
             }
 
         }

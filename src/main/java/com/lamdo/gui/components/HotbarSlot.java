@@ -5,7 +5,6 @@ import com.lamdo.gui.UIBlock;
 import com.lamdo.gui.UITexture;
 import com.lamdo.gui.constraints.AspectRatioConstraint;
 import com.lamdo.gui.constraints.PixelConstraint;
-import com.lamdo.gui.constraints.RelativeConstraint;
 import com.lamdo.render.model.VoxelModel;
 import com.lamdo.render.texture.GLTexture;
 
