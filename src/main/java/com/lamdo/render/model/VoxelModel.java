@@ -1,5 +1,7 @@
 package com.lamdo.render.model;
 
+import com.lamdo.gui.UITexture;
+import com.lamdo.render.texture.GLTexture;
 import org.joml.Vector3f;
 
 public class VoxelModel {
@@ -26,6 +28,15 @@ public class VoxelModel {
         float startX = offset*x;
         float startY = offset*y;
         return new float[] {startX, startY, startX, startY + offset, startX + offset, startY + offset, startX + offset, startY};
+    }
+
+    public static UITexture guiGetTextureUV(int index) {
+        int x = index % textureRows;
+        int y = index / textureRows;
+        float offset = 1f/textureRows;
+        float startX = offset*x;
+        float startY = offset*y;
+        return new UITexture(texture, startX, startY, offset, offset);
     }
 
     public static void setTexture(int textureID, int rows) {

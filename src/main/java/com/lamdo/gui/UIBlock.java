@@ -1,10 +1,8 @@
 package com.lamdo.gui;
 
-import com.lamdo.gui.constraints.AspectRatioConstraint;
-import com.lamdo.gui.constraints.ConstraintType;
-import com.lamdo.gui.constraints.PixelConstraint;
-import com.lamdo.gui.constraints.UIConstraint;
+import com.lamdo.gui.constraints.*;
 import com.lamdo.render.Loader;
+import com.lamdo.render.Window;
 import com.lamdo.render.model.RawModel;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
@@ -60,11 +58,17 @@ public class UIBlock {
         if(centerXConstraint != null || (staticHorizontal && widthConstraint != null)) horizontalError();
         return this;
     }
+    public UIBlock left() {
+        return left(new PixelConstraint(0));
+    }
     public UIBlock right(UIConstraint right) {
         rightConstraint = right;
         if(leftConstraint != null) staticHorizontal = true;
         if(centerXConstraint != null || (staticHorizontal && widthConstraint != null)) horizontalError();
         return this;
+    }
+    public UIBlock right() {
+        return right(new PixelConstraint(0));
     }
     public UIBlock centerX() {
         return centerX(new PixelConstraint(0));
@@ -80,11 +84,17 @@ public class UIBlock {
         if(centerYConstraint != null || (staticVertical && heightConstraint != null)) verticalError();
         return this;
     }
+    public UIBlock top() {
+        return top(new PixelConstraint(0));
+    }
     public UIBlock bottom(UIConstraint bottom) {
         bottomConstraint = bottom;
         if(topConstraint != null) staticVertical = true;
         if(centerYConstraint != null || (staticVertical && heightConstraint != null)) verticalError();
         return this;
+    }
+    public UIBlock bottom() {
+        return bottom(new PixelConstraint(0));
     }
     public UIBlock centerY() {
         return centerY(new PixelConstraint(0));
@@ -100,11 +110,17 @@ public class UIBlock {
         widthConstraint.setUiBlock(this);
         return this;
     }
+    public UIBlock fullWidth() {
+        return width(new RelativeConstraint(1));
+    }
     public UIBlock height(UIConstraint height) {
         heightConstraint = height;
         if(staticVertical) verticalError();
         heightConstraint.setUiBlock(this);
         return this;
+    }
+    public UIBlock fullHeight() {
+        return height(new RelativeConstraint(1));
     }
 
     private void horizontalError() {
@@ -151,13 +167,13 @@ public class UIBlock {
         // the left position can be given, or has to be derived from the centerX/width or right/width
         float left;
         if(leftConstraint != null) {
-            left = parentLeft + 1 + leftConstraint.value(ConstraintType.LEFT);
+            left = parentLeft + 1 + leftConstraint.value(ConstraintType.LEFT, (parentRight - parentLeft)/2);
         } else if (centerXConstraint != null) {
             if(widthConstraint == null) constraintConfigurationError();
             left = centerXConstraint.value(ConstraintType.CENTERX) * 2 - (calculateWidth() / 2) - parentCenterX;
         } else {
             if(rightConstraint == null || widthConstraint == null) constraintConfigurationError();
-            left = parentRight - (1- rightConstraint.value(ConstraintType.RIGHT)) - calculateWidth();
+            left = parentRight - (1- rightConstraint.value(ConstraintType.RIGHT, (parentRight - parentLeft)/2)) - calculateWidth();
         }
 
         return left;
@@ -176,47 +192,51 @@ public class UIBlock {
 
         float bottom; // could be given or could be calculared based on top and height or based on centery and width
         if(bottomConstraint != null) {
-            bottom = parentBottom + 1 + bottomConstraint.value(ConstraintType.BOTTOM);
+            bottom = parentBottom + 1 + bottomConstraint.value(ConstraintType.BOTTOM, (parentTop - parentBottom)/2);
         } else if (centerYConstraint != null) {
             if(heightConstraint == null) constraintConfigurationError();
             bottom = centerYConstraint.value(ConstraintType.CENTERY) * 2 - (calculateHeight() / 2) - parentCenterY;
         } else {
             if(topConstraint == null || heightConstraint == null) constraintConfigurationError();
-            bottom = parentTop - (1 - topConstraint.value(ConstraintType.TOP)) - calculateHeight();
+            bottom = parentTop - (1 - topConstraint.value(ConstraintType.TOP, (parentTop - parentBottom)/2)) - calculateHeight();
         }
         return bottom;
     }
     private float calculateWidth() {
-        float parentWidth;
-        if(parent == null) {
-            parentWidth = 1;
+        float parentLeft, parentRight;
+        if(parent != null) {
+            parentLeft = parent.calculateLeft();
+            parentRight = parentLeft + parent.calculateWidth();
         } else {
-            parentWidth = parent.calculateWidth() / 2;
+            parentLeft = -1;
+            parentRight = 1;
         }
 
         float width; // could be given or could be calculated based on left and right
         if(widthConstraint != null) {
-            width = widthConstraint.value(ConstraintType.WIDTH, parentWidth);
+            width = widthConstraint.value(ConstraintType.WIDTH, (parentRight - parentLeft)/2);
         } else {
             if(leftConstraint == null || rightConstraint == null) constraintConfigurationError();
-            width = rightConstraint.value(ConstraintType.RIGHT, parentWidth) - leftConstraint.value(ConstraintType.LEFT, parentWidth);
+            width = -1 + parentRight + rightConstraint.value(ConstraintType.RIGHT) - (parentLeft + 1 + leftConstraint.value(ConstraintType.LEFT));
         }
         return width;
     }
     private float calculateHeight() {
-        float parentHeight;
-        if(parent == null) {
-            parentHeight = 1;
+        float parentBottom, parentTop;
+        if(parent != null) {
+            parentBottom = parent.calculateBottom();
+            parentTop = parentBottom + parent.calculateHeight();
         } else {
-            parentHeight = parent.calculateHeight() / 2;
+            parentBottom = -1;
+            parentTop = 1;
         }
 
         float height; // could be given or could be calculated based on top and bottom
         if(heightConstraint != null) {
-            height = heightConstraint.value(ConstraintType.HEIGHT, parentHeight);
+            height = heightConstraint.value(ConstraintType.HEIGHT, (parentTop - parentBottom) / 2);
         } else {
             if(topConstraint == null || bottomConstraint == null) constraintConfigurationError();
-            height = topConstraint.value(ConstraintType.TOP, parentHeight) - bottomConstraint.value(ConstraintType.BOTTOM, parentHeight);
+            height = -1 + parentTop + topConstraint.value(ConstraintType.TOP) - (parentBottom + 1 + bottomConstraint.value(ConstraintType.BOTTOM));
         }
         return height;
     }

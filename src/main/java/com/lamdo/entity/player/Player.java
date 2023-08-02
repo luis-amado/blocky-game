@@ -52,11 +52,10 @@ public class Player extends PhysicsEntity {
 
         processMovement();
 
-        // draw bounding box
         if(Window.debugMode) {
             ShapeRenderer.drawBoxCenteredBottom(Vector3Util.castToFloat(position), boundingBox, new Vector4f(1, 1, 1, 1));
+            ShapeRenderer.drawDebugCrosshair();
         }
-        ShapeRenderer.drawDebugCrosshair();
 
         playerInteraction();
     }
@@ -153,10 +152,6 @@ public class Player extends PhysicsEntity {
         //jumping
         if(grounded && Window.isKeyPressed(GLFW_KEY_SPACE)) {
             velocity.y = jumpStrength;
-        }
-
-        if(Window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
-            position.y -= 0.1f;
         }
 
         //changing speed

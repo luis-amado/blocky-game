@@ -20,4 +20,8 @@ public class BaseUIComponent extends UIComponent {
             GUIRenderer.processUIBlock(uiBlock);
         }
     }
+
+    protected void addComponent(BaseUIComponent other) {
+        uiBlocks.addAll(other.uiBlocks);
+    }
 }

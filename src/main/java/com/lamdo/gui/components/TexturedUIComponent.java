@@ -7,10 +7,14 @@ import com.lamdo.render.texture.TextureData;
 
 public class TexturedUIComponent extends BaseUIComponent{
 
-    private GLTexture texture;
+    protected GLTexture texture;
 
     protected void setTexture(String texturePath) {
         texture = Loader.loadTexture(texturePath);
+    }
+
+    protected void setTexture(GLTexture texture) {
+        this.texture = texture;
     }
 
     protected UITexture textureUV(int x, int y, int width, int height) {

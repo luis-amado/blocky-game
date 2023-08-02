@@ -4,18 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Created a hotbar component using the ui library i built">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/UITexture.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/TexturedUIComponent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/texture/GLTexture.java" afterDir="false" />
+    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="UI Elements can now be textured">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/Crosshair.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/HotbarSlot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/UIBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/UIBlock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/BaseUIComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/BaseUIComponent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/Hotbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/Hotbar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Loader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Loader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/GUIRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/GUIRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/shader/GUIShader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/shader/GUIShader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/gui.frag" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/gui.frag" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/gui.vert" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/gui.vert" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/TexturedUIComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/TexturedUIComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/VoxelModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/VoxelModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,8 +53,8 @@
         <option value="Enum" />
         <option value="package-info" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -293,7 +293,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690929748407</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="UI Elements can now be textured">
+      <option name="closed" value="true" />
+      <created>1690939855542</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1690939855542</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -341,7 +349,8 @@
     <MESSAGE value="Added a gui system that allows responsive layouts using constraints" />
     <MESSAGE value="Added hierarchy to UI components" />
     <MESSAGE value="Created a hotbar component using the ui library i built" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created a hotbar component using the ui library i built" />
+    <MESSAGE value="UI Elements can now be textured" />
+    <option name="LAST_COMMIT_MESSAGE" value="UI Elements can now be textured" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

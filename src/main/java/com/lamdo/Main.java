@@ -2,31 +2,14 @@ package com.lamdo;
 
 import com.lamdo.entity.player.Camera;
 import com.lamdo.entity.player.Player;
-import com.lamdo.gui.UIBlock;
+import com.lamdo.gui.components.Crosshair;
 import com.lamdo.gui.components.Hotbar;
-import com.lamdo.gui.constraints.AspectRatioConstraint;
-import com.lamdo.gui.constraints.PixelConstraint;
-import com.lamdo.gui.constraints.RelativeConstraint;
-import com.lamdo.gui.constraints.RelativePlusPixelsConstraint;
 import com.lamdo.render.Loader;
 import com.lamdo.render.Window;
-import com.lamdo.render.model.RawModel;
 import com.lamdo.render.model.VoxelModel;
-import com.lamdo.render.renderer.GUIRenderer;
 import com.lamdo.render.renderer.MasterRenderer;
-import com.lamdo.render.shader.VoxelShader;
-import com.lamdo.world.Chunk;
 import com.lamdo.world.World;
 import org.joml.Vector3d;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
-import org.lwjgl.system.CallbackI;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.stream.Stream;
 
 import static org.lwjgl.opengl.GL33.*;
 
@@ -49,6 +32,7 @@ public class Main {
         world.generateMeshes();
 
         Hotbar hotbar = new Hotbar();
+        Crosshair crosshair = new Crosshair();
 
         while(!window.shouldClose()) {
             glClear(GL_COLOR_BUFFER_BIT);
@@ -57,6 +41,7 @@ public class Main {
             player.move();
 
             hotbar.render();
+            if(!Window.debugMode) crosshair.render();
             renderer.render(world, camera);
 
             window.update();

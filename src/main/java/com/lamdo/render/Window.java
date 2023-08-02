@@ -132,6 +132,7 @@ public class Window {
         glfwSetWindowSizeCallback(window, null).free();
         glfwSetScrollCallback(window, null).free();
         glfwSetKeyCallback(window, null).free();
+        glfwSetMouseButtonCallback(window, null).free();
         glfwTerminate();
     }
 
