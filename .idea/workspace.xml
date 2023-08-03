@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Fixed bugs and added some polish. Can now also update VAOs rather than having to create new ones for each time a model had to be updated (eg. Chunks or shapes updating)">
+    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Small quality of life changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -341,7 +341,15 @@
       <option name="project" value="LOCAL" />
       <updated>1691043714043</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Small quality of life changes">
+      <option name="closed" value="true" />
+      <created>1691044855161</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1691044855161</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -370,7 +378,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Textured Quad" />
     <MESSAGE value="Moveable camera" />
     <MESSAGE value="Small cleanup" />
     <MESSAGE value="First Block" />
@@ -395,7 +402,8 @@
     <MESSAGE value="Change block using scroll wheel as well" />
     <MESSAGE value="Added wood and wood planks" />
     <MESSAGE value="Fixed bugs and added some polish. Can now also update VAOs rather than having to create new ones for each time a model had to be updated (eg. Chunks or shapes updating)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed bugs and added some polish. Can now also update VAOs rather than having to create new ones for each time a model had to be updated (eg. Chunks or shapes updating)" />
+    <MESSAGE value="Small quality of life changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Small quality of life changes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

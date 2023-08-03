@@ -182,7 +182,6 @@ public class Window {
 
     private void mouseScrolled(long window, double xoffset, double yoffset) {
         mouseDW = yoffset;
-        System.out.println(yoffset);
     }
 
     private void keyCallback(long window, int key, int scancode, int action, int mods) {
