@@ -4,19 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Added wood and wood planks">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/UpdateableRawModel.java" afterDir="false" />
+    <list default="true" id="91d2e3b3-f759-4252-9bf7-07c4d06f0d3d" name="Changes" comment="Fixed bugs and added some polish. Can now also update VAOs rather than having to create new ones for each time a model had to be updated (eg. Chunks or shapes updating)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/entity/player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/HotbarSlot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/gui/components/HotbarSlot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Loader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Loader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/RawModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/RawModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/ShapeModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/ShapeModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/VoxelModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/model/VoxelModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/ShapeRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/render/renderer/ShapeRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lamdo/world/Chunk.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -342,7 +333,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690955837503</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Fixed bugs and added some polish. Can now also update VAOs rather than having to create new ones for each time a model had to be updated (eg. Chunks or shapes updating)">
+      <option name="closed" value="true" />
+      <created>1691043714043</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1691043714043</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -369,7 +368,8 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="First Quad" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="Textured Quad" />
     <MESSAGE value="Moveable camera" />
     <MESSAGE value="Small cleanup" />
@@ -394,7 +394,8 @@
     <MESSAGE value="The hotbar now allows you to select the block you want to place using the arrow keys" />
     <MESSAGE value="Change block using scroll wheel as well" />
     <MESSAGE value="Added wood and wood planks" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added wood and wood planks" />
+    <MESSAGE value="Fixed bugs and added some polish. Can now also update VAOs rather than having to create new ones for each time a model had to be updated (eg. Chunks or shapes updating)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed bugs and added some polish. Can now also update VAOs rather than having to create new ones for each time a model had to be updated (eg. Chunks or shapes updating)" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

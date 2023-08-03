@@ -25,6 +25,7 @@ public class Window {
     private static Vector2d mouseDelta = new Vector2d(0, 0);
     private static double mouseDW;
     private static boolean[] mouseButtons = new boolean[2];
+    private static boolean focused = true;
 
     public static boolean debugMode;
 
@@ -139,6 +140,7 @@ public class Window {
         glfwSetScrollCallback(window, null).free();
         glfwSetKeyCallback(window, null).free();
         glfwSetMouseButtonCallback(window, null).free();
+        glfwSetCursorPosCallback(window, null).free();
         glfwTerminate();
     }
 
@@ -168,6 +170,11 @@ public class Window {
     }
 
     private void mouseButton(long window, int button, int action, int mods) {
+        if(!focused && button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            focused = true;
+        }
+
         if(button < 2) {
             mouseButtons[button] = action == GLFW_PRESS;
         }
@@ -186,6 +193,7 @@ public class Window {
             debugMode = !debugMode;
         } else if (key == GLFW_KEY_ESCAPE) {
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            focused = false;
         }
     }
 

@@ -67,6 +67,12 @@ public class Player extends PhysicsEntity {
         }
 
         playerInteraction();
+
+        // Return the player if they fell down the void
+        if(position.y < -40f) {
+            position = new Vector3d(0, 80, 0);
+            velocity.y = 0f;
+        }
     }
 
     private void playerInteraction() {
@@ -161,6 +167,15 @@ public class Player extends PhysicsEntity {
         //jumping
         if(grounded && Window.isKeyPressed(GLFW_KEY_SPACE)) {
             velocity.y = jumpStrength;
+        }
+
+        //changing speed
+        if(Window.isKeyPressed(GLFW_KEY_UP)) {
+            speed += 5f * Time.getDeltaTime();
+        }
+        if(Window.isKeyPressed(GLFW_KEY_DOWN)) {
+            speed -= 5f * Time.getDeltaTime();
+            speed = Math.max(speed, 0);
         }
     }
 
