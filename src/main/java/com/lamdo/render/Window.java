@@ -1,7 +1,9 @@
 package com.lamdo.render;
 
 import com.lamdo.util.Time;
+import org.joml.Vector2d;
 import org.joml.Vector2f;
+import org.joml.Vector3d;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -19,6 +21,8 @@ public class Window {
     private static boolean wasResized;
     private static boolean fullscreen = false;
     private static int xpos, ypos, width, height;
+    private static Vector2d prevMouse = new Vector2d(0, 0);
+    private static Vector2d mouseDelta = new Vector2d(0, 0);
     private static double mouseDW;
     private static boolean[] mouseButtons = new boolean[2];
 
@@ -49,6 +53,7 @@ public class Window {
         glfwSetScrollCallback(window, this::mouseScrolled);
         glfwSetKeyCallback(window, this::keyCallback);
         glfwSetMouseButtonCallback(window, this::mouseButton);
+        glfwSetCursorPosCallback(window, this::cursorPositionChanged);
 
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
@@ -116,6 +121,7 @@ public class Window {
         mouseDW = 0;
         mouseButtons[0] = false;
         mouseButtons[1] = false;
+        mouseDelta = new Vector2d(0,0);
         // Swap the color buffers to render the next frame
         glfwSwapBuffers(window);
 
@@ -144,6 +150,15 @@ public class Window {
     }
 
     // Input managing should move to its own class
+    public void cursorPositionChanged(long window, double xpos, double ypos) {
+        mouseDelta = new Vector2d(xpos - prevMouse.x, ypos - prevMouse.y);
+        prevMouse = new Vector2d(xpos, ypos);
+    }
+
+    public static Vector2d getMouseDelta() {
+        return mouseDelta;
+    }
+
     public static boolean isKeyPressed(int keyCode) {
         return glfwGetKey(window, keyCode) == GLFW_PRESS;
     }

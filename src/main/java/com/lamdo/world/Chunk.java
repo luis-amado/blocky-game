@@ -38,7 +38,9 @@ public class Chunk {
         for(int x = 0; x < WIDTH; x++) {
             for(int z = 0; z < WIDTH; z++) {
                 Vector3i worldCoords = toWorldCoord(x, 0, z);
-                int terrainHeight = 30+(int)(Math.sin((worldCoords.x + worldCoords.z) / 5f) * 4);
+                int terrainHeight = 30+(int)(Math.sin((worldCoords.x + worldCoords.z) / 5f) * 4); // curvy terrain
+
+//                int terrainHeight = 30; // plain terrain
                 for (int y = 0; y < HEIGHT; y++) {
                     if(y > terrainHeight) {
                         setBlockLocal(x, y, z, Blocks.AIR);
@@ -76,7 +78,11 @@ public class Chunk {
 
     public void createMesh() {
         Mesh mesh = generateMesh();
-        voxelModel.setModel(Loader.loadToVAO(mesh.positions(), mesh.textureCoords(), mesh.indices()));
+        if(voxelModel.hasModel()) {
+            Loader.updateVAO(voxelModel.getModel(), mesh.positions(), mesh.textureCoords(), mesh.indices());
+        } else {
+            voxelModel.setModel(Loader.loadToVAO(mesh.positions(), mesh.textureCoords(), mesh.indices()));
+        }
     }
 
     private Mesh generateMesh() {

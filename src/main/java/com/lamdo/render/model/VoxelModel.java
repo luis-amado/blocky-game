@@ -1,7 +1,6 @@
 package com.lamdo.render.model;
 
 import com.lamdo.gui.UITexture;
-import com.lamdo.render.texture.GLTexture;
 import org.joml.Vector3f;
 
 public class VoxelModel {
@@ -9,16 +8,20 @@ public class VoxelModel {
     private static int texture;
     private static int textureRows;
 
-    private RawModel model;
+    private UpdateableRawModel model;
     private Vector3f position;
 
     public VoxelModel(Vector3f position) {
         this.position = position;
     }
 
-    public VoxelModel(RawModel model, Vector3f position) {
+    public VoxelModel(UpdateableRawModel model, Vector3f position) {
         this.model = model;
         this.position = position;
+    }
+
+    public boolean hasModel() {
+        return model != null;
     }
 
     public static float[] getTextureCoords(int index) {
@@ -48,11 +51,11 @@ public class VoxelModel {
         return texture;
     }
 
-    public RawModel getModel() {
+    public UpdateableRawModel getModel() {
         return model;
     }
 
-    public void setModel(RawModel model) {
+    public void setModel(UpdateableRawModel model) {
         this.model = model;
     }
 

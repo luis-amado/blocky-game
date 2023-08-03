@@ -10,13 +10,8 @@ import com.lamdo.render.texture.GLTexture;
 
 public class HotbarSlot extends TexturedUIComponent{
 
-    private Block block;
-    private int index;
-
     public HotbarSlot(int index, Block block, UIBlock parent, GLTexture texture) {
         setTexture(texture);
-        this.block = block;
-        this.index = index;
 
         UIBlock slot = new UIBlock(parent)
                 .left(new PixelConstraint(1 + index*41))

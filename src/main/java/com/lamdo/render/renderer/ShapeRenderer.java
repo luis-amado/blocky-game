@@ -21,6 +21,8 @@ public class ShapeRenderer {
     private ShapeShader shader;
     private static List<ShapeModel> shapes = new ArrayList<ShapeModel>();
 
+    private static ShapeModel debugCrosshair = new ShapeModel();
+
     public ShapeRenderer(ShapeShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
         shader.start();
@@ -92,11 +94,12 @@ public class ShapeRenderer {
                 0, 1, 0, 1, 0, 1, 0, 1,
                 0, 0, 1, 1, 0, 0, 1, 1
         };
-        ShapeModel shape = new ShapeModel(new Vector3f(0, 0, 0), Loader.loadToVAO(positions, colors), GL_LINES, true);
-        processShape(shape);
+        debugCrosshair.update(new Vector3f(0, 0, 0), GL_LINES, true);
+        Loader.updateShapeVAO(debugCrosshair.model(), positions, colors);
+        processShape(debugCrosshair);
     }
 
-    public static void drawBoxCenteredBottom(Vector3f position, BoundingBox box, Vector4f color) {
+    public static void drawBoxCenteredBottom(ShapeModel shape, Vector3f position, BoundingBox box, Vector4f color) {
         float hw = box.getWidth() / 2f;
         float h = box.getHeight();
         float zprev = 0.001f;
@@ -130,11 +133,12 @@ public class ShapeRenderer {
                 color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
                 color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w
         };
-        ShapeModel shape = new ShapeModel(position, Loader.loadToVAO(positions, colors), GL11.GL_LINES, false);
+        shape.update(position, GL_LINES, false);
+        Loader.updateShapeVAO(shape.model(), positions, colors);
         processShape(shape);
     }
 
-    public static void drawBox(Vector3f position, BoundingBox box, Vector4f color) {
+    public static void drawBox(ShapeModel shape, Vector3f position, BoundingBox box, Vector4f color) {
         float w = box.getWidth()+0.001f;
         float h = box.getHeight()+0.001f;
         float[] positions = new float[] {
@@ -167,7 +171,8 @@ public class ShapeRenderer {
                 color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,
                 color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w
         };
-        ShapeModel shape = new ShapeModel(position, Loader.loadToVAO(positions, colors), GL11.GL_LINES, false);
+        shape.update(position, GL_LINES, false);
+        Loader.updateShapeVAO(shape.model(), positions, colors);
         processShape(shape);
     }
 

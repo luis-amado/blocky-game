@@ -1,13 +1,13 @@
 package com.lamdo.render;
 
 import com.lamdo.render.model.RawModel;
+import com.lamdo.render.model.UpdateableRawModel;
 import com.lamdo.render.texture.GLTexture;
 import com.lamdo.render.texture.TextureData;
 import com.lamdo.util.ArrayUtils;
 import org.lwjgl.BufferUtils;
 import org.newdawn.slick.opengl.PNGDecoder;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -21,41 +21,83 @@ public class Loader {
     private static final List<Integer> vbos = new ArrayList<Integer>();
     private static final List<Integer> textures = new ArrayList<Integer>();
 
-    public static RawModel loadToVAO(List<Float> positions, List<Float> textureCoords, List<Integer> indices) {
+    // used for voxels
+    public static UpdateableRawModel loadToVAO(List<Float> positions, List<Float> textureCoords, List<Integer> indices) {
         int vaoID = createVAO();
-        bindIndicesBuffer(ArrayUtils.toIntArray(indices));
-        storeDataInAttributeList(0, 3, ArrayUtils.toFloatArray(positions));
-        storeDataInAttributeList(1, 2, ArrayUtils.toFloatArray(textureCoords));
+        int indicesVBO = bindIndicesBuffer(ArrayUtils.toIntArray(indices), GL_DYNAMIC_DRAW);
+        int positionsVBO = storeDataInAttributeList(0, 3, ArrayUtils.toFloatArray(positions), GL_DYNAMIC_DRAW);
+        int textureCoordsVBO = storeDataInAttributeList(1, 2, ArrayUtils.toFloatArray(textureCoords), GL_DYNAMIC_DRAW);
         unbindVAO();
-        return new RawModel(vaoID, indices.size());
+        return new UpdateableRawModel(vaoID, indices.size(), indicesVBO, positionsVBO, textureCoordsVBO);
+    }
+
+    // used for updating the model of a voxel chunk (like when placing or breaking blocks)
+    public static void updateVAO(UpdateableRawModel model, List<Float> positions, List<Float> textureCoords, List<Integer> indices) {
+        int vaoID = model.vaoID();
+        glBindVertexArray(vaoID);
+
+        // update indices
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.getVbo0());
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, ArrayUtils.toIntArray(indices), GL_DYNAMIC_DRAW);
+
+        // update positions
+        glBindBuffer(GL_ARRAY_BUFFER, model.getVbo1());
+        glBufferData(GL_ARRAY_BUFFER, ArrayUtils.toFloatArray(positions), GL_DYNAMIC_DRAW);
+
+        // update texture coordinates
+        glBindBuffer(GL_ARRAY_BUFFER, model.getVbo2());
+        glBufferData(GL_ARRAY_BUFFER, ArrayUtils.toFloatArray(textureCoords), GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+
+        model.setIndexCount(indices.size());
     }
 
     // used for voxels
-    public static RawModel loadToVAO(float[] positions, float[] textureCoords, int[] indices) {
+    public static UpdateableRawModel loadToVAO(float[] positions, float[] textureCoords, int[] indices) {
         int vaoID = createVAO();
-        bindIndicesBuffer(indices);
-        storeDataInAttributeList(0, 3, positions);
-        storeDataInAttributeList(1, 2, textureCoords);
+        int indicesVBO = bindIndicesBuffer(indices, GL_DYNAMIC_DRAW);
+        int positionsVBO = storeDataInAttributeList(0, 3, positions, GL_DYNAMIC_DRAW);
+        int textureCoordsVBO = storeDataInAttributeList(1, 2, textureCoords, GL_DYNAMIC_DRAW);
         unbindVAO();
-        return new RawModel(vaoID, indices.length);
+        return new UpdateableRawModel(vaoID, indices.length, indicesVBO, positionsVBO, textureCoordsVBO);
     }
 
     // used for gui
     public static RawModel loadToVAOGUI(float[] positions, float[] texCoords) {
         int vaoID = createVAO();
-        storeDataInAttributeList(0, 2, positions);
-        storeDataInAttributeList(1, 2, texCoords);
+        storeDataInAttributeList(0, 2, positions, GL_STATIC_DRAW);
+        storeDataInAttributeList(1, 2, texCoords, GL_STATIC_DRAW);
         unbindVAO();
         return new RawModel(vaoID, positions.length / 2);
     }
 
     // used for shapes
-    public static RawModel loadToVAO(float[] positions, float[] colors) {
+    public static UpdateableRawModel loadEmptyShapeVAO() {
         int vaoID = createVAO();
-        storeDataInAttributeList(0, 3, positions);
-        storeDataInAttributeList(1, 4, colors);
+        int positionsVBO = storeDataInAttributeList(0, 3, new float[0], GL_DYNAMIC_DRAW);
+        int colorsVBO = storeDataInAttributeList(1, 4, new float[0], GL_DYNAMIC_DRAW);
         unbindVAO();
-        return new RawModel(vaoID, positions.length / 3);
+        return new UpdateableRawModel(vaoID, 0, positionsVBO, colorsVBO, 0);
+    }
+
+    public static void updateShapeVAO(UpdateableRawModel model, float[] positions, float[] colors) {
+        int vaoID = model.vaoID();
+        glBindVertexArray(vaoID);
+
+        // update positions
+        glBindBuffer(GL_ARRAY_BUFFER, model.getVbo0());
+        glBufferData(GL_ARRAY_BUFFER, positions, GL_DYNAMIC_DRAW);
+
+        // update colors
+        glBindBuffer(GL_ARRAY_BUFFER, model.getVbo1());
+        glBufferData(GL_ARRAY_BUFFER, colors, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+
+        model.setIndexCount(positions.length / 3);
     }
 
     public static GLTexture loadTexture(String filepath) {
@@ -159,6 +201,10 @@ public class Loader {
     }
 
     public static void cleanUp() {
+        System.out.println("VAO count: " + vaos.size());
+        System.out.println("VBO count: " + vbos.size());
+        System.out.println("Texture count: " + textures.size());
+
         for(int vao: vaos) {
             glDeleteVertexArrays(vao);
         }
@@ -177,20 +223,22 @@ public class Loader {
         return vaoID;
     }
 
-    private static void storeDataInAttributeList(int attributeNumber, int coordSize, float[] data) {
+    private static int storeDataInAttributeList(int attributeNumber, int coordSize, float[] data, int drawMode) {
         int vboID = glGenBuffers();
         vbos.add(vboID);
         glBindBuffer(GL_ARRAY_BUFFER, vboID);
-        glBufferData(GL_ARRAY_BUFFER, data, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, data, drawMode);
         glVertexAttribPointer(attributeNumber, coordSize, GL_FLOAT, false, 0, 0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+        return vboID;
     }
 
-    private static void bindIndicesBuffer(int[] indices) {
+    private static int bindIndicesBuffer(int[] indices, int drawMode) {
         int vboID = glGenBuffers();
         vbos.add(vboID);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboID);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, drawMode);
+        return vboID;
     }
 
     private static void unbindVAO() {

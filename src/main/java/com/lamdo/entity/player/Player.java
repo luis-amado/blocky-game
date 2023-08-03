@@ -6,6 +6,7 @@ import com.lamdo.gui.components.Hotbar;
 import com.lamdo.physics.AABB;
 import com.lamdo.physics.BoundingBox;
 import com.lamdo.render.Window;
+import com.lamdo.render.model.ShapeModel;
 import com.lamdo.render.renderer.ShapeRenderer;
 import com.lamdo.util.*;
 import com.lamdo.world.World;
@@ -19,7 +20,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Player extends PhysicsEntity {
 
-    private float speed = 8f;
+    private float speed = 4f; // blocks per second
     private float sensitivity = 0.1f;
 
     private float gravity = 22f;
@@ -28,9 +29,14 @@ public class Player extends PhysicsEntity {
     private Vector3f input;
     private Hotbar hotbar;
 
+    private ShapeModel hitboxShape;
+    private ShapeModel lookingAtOutline;
+
     public Player (Vector3d position, World world, Hotbar hotbar) {
         super(position, world);
         this.hotbar = hotbar;
+        hitboxShape = new ShapeModel();
+        lookingAtOutline = new ShapeModel();
     }
 
     @Override
@@ -56,7 +62,7 @@ public class Player extends PhysicsEntity {
         processMovement();
 
         if(Window.debugMode) {
-            ShapeRenderer.drawBoxCenteredBottom(Vector3Util.castToFloat(position), boundingBox, new Vector4f(1, 1, 1, 1));
+            ShapeRenderer.drawBoxCenteredBottom(hitboxShape, Vector3Util.castToFloat(position), boundingBox, new Vector4f(1, 1, 1, 1));
             ShapeRenderer.drawDebugCrosshair();
         }
 
@@ -69,7 +75,7 @@ public class Player extends PhysicsEntity {
         Direction face = targetBlock.face();
 
         if(lookingAt != null) {
-            ShapeRenderer.drawBox(new Vector3f(lookingAt), new BoundingBox(1, 1), new Vector4f(0f, 0f, 0f, 0.5f));
+            ShapeRenderer.drawBox(lookingAtOutline, new Vector3f(lookingAt), new BoundingBox(1, 1), new Vector4f(0f, 0f, 0f, 0.5f));
 
             if(Window.getMouseButton(GLFW_MOUSE_BUTTON_LEFT)) {
                 world.updateBlock(lookingAt, Blocks.AIR);
@@ -156,10 +162,6 @@ public class Player extends PhysicsEntity {
         if(grounded && Window.isKeyPressed(GLFW_KEY_SPACE)) {
             velocity.y = jumpStrength;
         }
-
-        //changing speed
-        speed += Window.getMouseDWheel() * 0.5f;
-        speed = Math.max(0, speed);
     }
 
 }

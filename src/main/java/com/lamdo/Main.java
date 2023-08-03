@@ -49,6 +49,7 @@ public class Main {
             window.update();
         }
 
+        Loader.cleanUp();
         window.terminate();
 
     }
