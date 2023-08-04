@@ -8,6 +8,7 @@ import com.lamdo.render.model.Mesh;
 import com.lamdo.render.model.VoxelModel;
 import com.lamdo.util.ArrayUtils;
 import com.lamdo.util.Direction;
+import com.lamdo.util.Noise;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -37,10 +38,8 @@ public class Chunk {
     public void generateTerrain() {
         for(int x = 0; x < WIDTH; x++) {
             for(int z = 0; z < WIDTH; z++) {
-//                Vector3i worldCoords = toWorldCoord(x, 0, z);
-//                int terrainHeight = 30+(int)(Math.sin((worldCoords.x + worldCoords.z) / 5f) * 4); // curvy terrain
-
-                int terrainHeight = 30; // plain terrain
+                Vector3i worldCoords = toWorldCoord(x, 0, z);
+                int terrainHeight = 30 + (int) Math.floor(Noise.noise2D(0, worldCoords.x, worldCoords.z, 100f, 0, 3, 0.5f, 2) * 20);
                 for (int y = 0; y < HEIGHT; y++) {
                     if(y > terrainHeight) {
                         setBlockLocal(x, y, z, Blocks.AIR);

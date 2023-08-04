@@ -70,4 +70,12 @@ public class MathUtil {
         return (int)Math.floor(a);
     }
 
+    public static float lerp(float a, float b, float t) {
+        return (1.0f - t) * a + b * t;
+    }
+
+    public static float inverseLerp(float a, float b, float v) {
+        return (v - a) / (b - a);
+    }
+
 }
