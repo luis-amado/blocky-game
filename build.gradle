@@ -2,6 +2,12 @@ plugins {
     id 'java'
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.lamdo.Main'
+    }
+}
+
 project.ext.lwjglVersion = "3.2.3"
 project.ext.lwjglNatives = "natives-windows"
 project.ext.jomlVersion = "1.10.0"
@@ -15,6 +21,8 @@ repositories {
 }
 
 dependencies {
+    implementation fileTree(dir: 'lib', 'include': ['*.jar'])
+
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
     implementation "org.joml:joml:${jomlVersion}"
