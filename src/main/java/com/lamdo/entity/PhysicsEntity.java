@@ -30,11 +30,20 @@ public abstract class PhysicsEntity extends Entity {
         this.boundingBox = setBoundingBox();
     }
 
+    protected void processMovementNoCollision() {
+        // Used to update the position according to the velocity vector while not caring about collision with blocks
+        // This is used for the spectator mode movement
+        Vector3d processVelocity = new Vector3d(velocity);
+        processVelocity.mul(Time.getDeltaTime()); // scale the velocity by delta time to figure out how much we should be moving this frame
+        position.add(processVelocity);
+    }
+
     protected void processMovement() {
 
         grounded = false;
 
-        // objective: modify the velocity that will be aplied to prevent collision
+        // objective 1: modify the velocity that will be aplied to prevent collision
+        // objective 2: apply the final velocity onto the position of the entity
 
         // create a copy of the velocity, multiplied by delta time to represent the desired amount to move in this frame
         Vector3d processVelocity = new Vector3d(velocity);
@@ -93,7 +102,7 @@ public abstract class PhysicsEntity extends Entity {
 
             // modify the velocity by the collisionTime and also the calculated slide velocity
             processVelocity.mul(closestCollision.getCollisionTime());
-            processVelocity.add(closestCollision.getCollisionNormal().mul(0.001f));
+            processVelocity.add(closestCollision.getCollisionNormal().mul(0.001f)); // separate slightly from the exact position of contact
             processVelocity.add(slideVelocity);
         }
 

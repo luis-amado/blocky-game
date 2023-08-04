@@ -25,12 +25,15 @@ public class Player extends PhysicsEntity {
 
     private float gravity = 22f;
     private float jumpStrength = 7.3f;
+    private boolean spectatorMode = false;
 
     private Vector3f input;
     private Hotbar hotbar;
 
     private ShapeModel hitboxShape;
     private ShapeModel lookingAtOutline;
+
+    private boolean holdingF = false;
 
     public Player (Vector3d position, World world, Hotbar hotbar) {
         super(position, world);
@@ -53,13 +56,22 @@ public class Player extends PhysicsEntity {
 
         getInput();
 
-        velocity.x = 0;
-        velocity.z = 0;
-        if(velocity.y > -25f)
-            velocity.y -= gravity * Time.getDeltaTime();
-        velocity = velocity.add(MathUtil.forwardVector(rotation.y).mul(input.z * speed)).add(MathUtil.rightVector(rotation.y).mul(input.x * speed));
 
-        processMovement();
+        if(!spectatorMode) {
+            velocity.x = 0;
+            velocity.z = 0;
+            if(velocity.y > -25f)
+                velocity.y -= gravity * Time.getDeltaTime();
+            velocity = velocity.add(MathUtil.forwardVector(rotation.y).mul(input.z * speed)).add(MathUtil.rightVector(rotation.y).mul(input.x * speed));
+            processMovement();
+        } else {
+            velocity.x = 0;
+            velocity.z = 0;
+            velocity.y = input.y * speed;
+            velocity = velocity.add(MathUtil.forwardVector(rotation.y).mul(input.z * speed)).add(MathUtil.rightVector(rotation.y).mul(input.x * speed));
+            processMovementNoCollision();
+        }
+
 
         if(Window.debugMode) {
             ShapeRenderer.drawBoxCenteredBottom(hitboxShape, Vector3Util.castToFloat(position), boundingBox, new Vector4f(1, 1, 1, 1));
@@ -161,6 +173,12 @@ public class Player extends PhysicsEntity {
         if(Window.isKeyPressed(GLFW_KEY_A)) {
             input.x -= 1;
         }
+        if(Window.isKeyPressed(GLFW_KEY_SPACE)) {
+            input.y += 1;
+        }
+        if(Window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
+            input.y -= 1;
+        }
         if(input.lengthSquared() > 0)
             input.normalize();
 
@@ -176,6 +194,16 @@ public class Player extends PhysicsEntity {
         if(Window.isKeyPressed(GLFW_KEY_DOWN)) {
             speed -= 5f * Time.getDeltaTime();
             speed = Math.max(speed, 0);
+        }
+
+        // spectator mode
+        if(Window.isKeyPressed(GLFW_KEY_F)) {
+            if(!holdingF) {
+                spectatorMode = !spectatorMode;
+            }
+            holdingF = true;
+        } else {
+            holdingF = false;
         }
     }
 

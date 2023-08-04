@@ -27,7 +27,7 @@ public class HotbarSlot extends TexturedUIComponent{
                 .left(new PixelConstraint(8))
                 .top(new PixelConstraint(7))
                 .bottom(new PixelConstraint(5))
-                .right(new PixelConstraint(5))
+                .width(new AspectRatioConstraint(1))
                 .texture(iconTexture)
                 .build();
 

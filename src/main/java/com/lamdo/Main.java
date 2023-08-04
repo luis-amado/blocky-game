@@ -21,7 +21,7 @@ public class Main {
         Window window = new Window();
 
         // Set the texture that the voxels will use
-        VoxelModel.setTexture(Loader.loadTextureAtlas("/textures/atlas.png"), 4);
+        VoxelModel.setTexture(Loader.loadTextureAtlas("/textures/new_atlas.png"), 8);
         World world = new World();
 
         Hotbar hotbar = new Hotbar();
