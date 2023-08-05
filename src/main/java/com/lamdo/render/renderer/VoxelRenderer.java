@@ -1,7 +1,9 @@
 package com.lamdo.render.renderer;
 
 import com.lamdo.entity.player.Camera;
+import com.lamdo.render.Window;
 import com.lamdo.render.model.RawModel;
+import com.lamdo.render.model.ShapeModel;
 import com.lamdo.render.model.VoxelModel;
 import com.lamdo.render.shader.VoxelShader;
 import com.lamdo.world.World;
@@ -13,6 +15,7 @@ import static org.lwjgl.opengl.GL33.*;
 public class VoxelRenderer {
 
     private VoxelShader shader;
+    private ShapeModel chunkBoundaries = new ShapeModel();
 
     public VoxelRenderer(VoxelShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;

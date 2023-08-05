@@ -163,7 +163,7 @@ public class World {
         }
     }
 
-    private Vector2i getChunkCoord(int worldX, int worldZ) {
+    public static Vector2i getChunkCoord(int worldX, int worldZ) {
         int x = worldX;
         int z = worldZ;
         if(x < 0) x -= 15;

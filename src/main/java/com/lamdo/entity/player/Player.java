@@ -29,16 +29,15 @@ public class Player extends PhysicsEntity {
     private Vector3f input;
     private Hotbar hotbar;
 
-    private ShapeModel hitboxShape;
-    private ShapeModel lookingAtOutline;
+    private ShapeModel hitboxShape = new ShapeModel();
+    private ShapeModel chunkBoundaries = new ShapeModel();
+    private ShapeModel lookingAtOutline = new ShapeModel();
 
     private boolean holdingF = false;
 
     public Player (Vector3d position, World world, Hotbar hotbar) {
         super(position, world);
         this.hotbar = hotbar;
-        hitboxShape = new ShapeModel();
-        lookingAtOutline = new ShapeModel();
         speed = baseSpeed;
     }
 
@@ -80,6 +79,7 @@ public class Player extends PhysicsEntity {
         if(Window.debugMode) {
             ShapeRenderer.drawBoxCenteredBottom(hitboxShape, Vector3Util.castToFloat(position), boundingBox, new Vector4f(1, 1, 1, 1));
             ShapeRenderer.drawDebugCrosshair();
+            ShapeRenderer.drawChunkBoundaries(chunkBoundaries, Vector3Util.floorToInt(position));
         }
 
         if(!spectatorMode) {

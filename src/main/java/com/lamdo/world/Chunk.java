@@ -85,10 +85,6 @@ public class Chunk {
         return this.dirty;
     }
 
-    private void setBlockLocal(int x, int y, int z, Block block) {
-        blockstates[index(x, y, z)] = block.getDefaultBlockstate().getID();
-    }
-
     public void updateBlockLocal(int x, int y, int z, Block block) {
         blockstates[index(x, y, z)] = block.getDefaultBlockstate().getID();
         markDirty();

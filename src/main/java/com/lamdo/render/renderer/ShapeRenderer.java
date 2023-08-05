@@ -6,13 +6,15 @@ import com.lamdo.render.Loader;
 import com.lamdo.render.model.RawModel;
 import com.lamdo.render.model.ShapeModel;
 import com.lamdo.render.shader.ShapeShader;
+import com.lamdo.util.ArrayUtils;
 import com.lamdo.util.MathUtil;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
+import com.lamdo.world.Chunk;
+import com.lamdo.world.World;
+import org.joml.*;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import static org.lwjgl.opengl.GL33.*;
 
@@ -174,6 +176,60 @@ public class ShapeRenderer {
         };
         shape.update(position, GL_LINES, false);
         Loader.updateShapeVAO(shape.model(), positions, colors);
+        processShape(shape);
+    }
+
+    public static void drawChunkBoundaries(ShapeModel shape, Vector3i originPoint) {
+        Vector2i originChunk = World.getChunkCoord(originPoint.x, originPoint.z);
+        Vector3f newShapePosition = new Vector3f(originChunk.x * Chunk.WIDTH, 0, originChunk.y * Chunk.WIDTH);
+        if(shape.position() != null) {
+            shape.update(newShapePosition, GL_LINES, false);
+            processShape(shape);
+            return;
+        }
+
+        int h = Chunk.HEIGHT;
+        int w = Chunk.WIDTH;
+
+        List<Float> positions = new ArrayList<Float>();
+        List<Float> colors = new ArrayList<Float>();
+
+        float[] verticalColumnsPos = new float[] {
+                // 4 vertical lines bordering the origin chunk
+                0, 0, 0, 0, h, 0,
+                0, 0, w, 0, h, w,
+                w, 0, 0, w, h, 0,
+                w, 0, w, w, h, w
+        };
+        float[] verticalColumnsColors = new float[] {
+                0, 0, 1, 1, 0, 0, 1, 1,
+                0, 0, 1, 1, 0, 0, 1, 1,
+                0, 0, 1, 1, 0, 0, 1, 1,
+                0, 0, 1, 1, 0, 0, 1, 1
+        };
+        ArrayUtils.addFloatArrayToList(verticalColumnsPos, positions);
+        ArrayUtils.addFloatArrayToList(verticalColumnsColors, colors);
+
+        // add 4 horizontal lines every 2 blocks
+        for(int y = 0; y <= Chunk.HEIGHT; y += 2) {
+            float[] horizontalRowsPos = new float[] {
+                    0, y, 0, 0, y, w,
+                    0, y, w, w, y, w,
+                    w, y, w, w, y, 0,
+                    w, y, 0, 0, y, 0
+            };
+            float[] horizontalRowsColors = new float[] {
+                    0, 1, 1, 1, 0, 1, 1, 1,
+                    0, 1, 1, 1, 0, 1, 1, 1,
+                    0, 1, 1, 1, 0, 1, 1, 1,
+                    0, 1, 1, 1, 0, 1, 1, 1
+            };
+            ArrayUtils.addFloatArrayToList(horizontalRowsPos, positions);
+            ArrayUtils.addFloatArrayToList(horizontalRowsColors, colors);
+        }
+
+        shape.update(newShapePosition, GL_LINES, false);
+        Loader.updateShapeVAO(shape.model(), ArrayUtils.toFloatArray(positions), ArrayUtils.toFloatArray(colors));
         processShape(shape);
     }
 
