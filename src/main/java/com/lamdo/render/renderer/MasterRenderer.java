@@ -5,6 +5,7 @@ import com.lamdo.render.Window;
 import com.lamdo.render.shader.GUIShader;
 import com.lamdo.render.shader.ShapeShader;
 import com.lamdo.render.shader.VoxelShader;
+import com.lamdo.util.Color;
 import com.lamdo.util.MathUtil;
 import com.lamdo.world.World;
 import org.joml.Matrix4f;
@@ -18,7 +19,7 @@ public class MasterRenderer {
     private static final float NEAR_PLANE = 0.01f;
     private static final float FAR_PLANE = 1000f;
 
-    private static final Vector3f SKY_COLOR = new Vector3f(0, 0.5f, 0.5f);
+    private static final Vector3f SKY_COLOR = Color.fromHexCode("#87ceeb");
 
     private VoxelShader voxelShader = new VoxelShader();
     private VoxelRenderer voxelRenderer;
@@ -48,6 +49,7 @@ public class MasterRenderer {
         prepare();
         voxelShader.start();
         voxelShader.loadViewMatrix(viewMatrix);
+        voxelShader.loadSkyColor(SKY_COLOR);
         voxelRenderer.render(world);
         voxelShader.stop();
 

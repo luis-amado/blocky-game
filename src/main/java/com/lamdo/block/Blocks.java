@@ -12,5 +12,6 @@ public class Blocks {
     public static final Block STONE_BRICKS = new Block("stone_bricks", BlockTexture.cubeAll(5));
     public static final Block OAK_LOG = new Block("oak_log", BlockTexture.cubeSideEnd(7, 8));
     public static final Block OAK_PLANKS = new Block("oak_planks", BlockTexture.cubeAll(6));
+    public static final Block OAK_LEAVES = new Block("oak_leaves", BlockTexture.cubeAll(9)).hasTransparency();
 
 }

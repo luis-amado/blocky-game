@@ -24,7 +24,7 @@ public class HotbarSlot extends TexturedUIComponent{
 
         UITexture iconTexture = VoxelModel.guiGetTextureUV(block.getDefaultBlockstate().getTextures().north());
         UIBlock icon = new UIBlock(slot)
-                .left(new PixelConstraint(8))
+                .left(new PixelConstraint(7))
                 .top(new PixelConstraint(7))
                 .bottom(new PixelConstraint(5))
                 .width(new AspectRatioConstraint(1))

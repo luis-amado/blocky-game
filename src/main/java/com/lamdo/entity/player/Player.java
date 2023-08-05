@@ -11,16 +11,15 @@ import com.lamdo.render.renderer.ShapeRenderer;
 import com.lamdo.util.*;
 import com.lamdo.world.World;
 import org.joml.*;
-import org.lwjgl.system.CallbackI;
 
 import java.lang.Math;
-import java.lang.annotation.Target;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Player extends PhysicsEntity {
 
-    private float speed = 4f; // blocks per second
+    private float baseSpeed = 4f;
+    private float speed; // blocks per second
     private float sensitivity = 0.1f;
 
     private float gravity = 22f;
@@ -40,6 +39,7 @@ public class Player extends PhysicsEntity {
         this.hotbar = hotbar;
         hitboxShape = new ShapeModel();
         lookingAtOutline = new ShapeModel();
+        speed = baseSpeed;
     }
 
     @Override
@@ -50,6 +50,10 @@ public class Player extends PhysicsEntity {
     @Override
     public float getEyeHeight() {
         return 1.71f;
+    }
+
+    public boolean spectatorModeActive() {
+        return this.spectatorMode;
     }
 
     public void move() {
@@ -78,13 +82,17 @@ public class Player extends PhysicsEntity {
             ShapeRenderer.drawDebugCrosshair();
         }
 
-        playerInteraction();
+        if(!spectatorMode) {
+            playerInteraction();
 
-        // Return the player if they fell down the void
-        if(position.y < -40f) {
-            position = new Vector3d(0, 80, 0);
-            velocity.y = 0f;
+            // Return the player if they fell down the void
+            if(position.y < -40f) {
+                position = new Vector3d(0, 80, 0);
+                velocity.y = 0f;
+            }
         }
+
+        world.updatePlayerPos(position);
     }
 
     private void playerInteraction() {
@@ -187,23 +195,21 @@ public class Player extends PhysicsEntity {
             velocity.y = jumpStrength;
         }
 
-        //changing speed
-        if(Window.isKeyPressed(GLFW_KEY_UP)) {
-            speed += 5f * Time.getDeltaTime();
-        }
-        if(Window.isKeyPressed(GLFW_KEY_DOWN)) {
-            speed -= 5f * Time.getDeltaTime();
-            speed = Math.max(speed, 0);
-        }
-
-        // spectator mode
+        // spectator mode toggle
         if(Window.isKeyPressed(GLFW_KEY_F)) {
             if(!holdingF) {
                 spectatorMode = !spectatorMode;
+                speed = baseSpeed;
             }
             holdingF = true;
         } else {
             holdingF = false;
+        }
+
+        //changing speed in spectator mode
+        if(spectatorMode) {
+            speed += Window.getMouseDWheel();
+            speed = Math.max(speed, 0);
         }
     }
 

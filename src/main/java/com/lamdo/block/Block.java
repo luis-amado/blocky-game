@@ -11,6 +11,7 @@ public class Block {
     private String name;
     private boolean solid;
     private boolean collision;
+    private boolean transparency;
     private Blockstate defaultBlockstate;
 
     public Block(String name, BlockTexture textures) {
@@ -30,6 +31,11 @@ public class Block {
         return this;
     }
 
+    public Block hasTransparency() {
+        transparency = true;
+        return this;
+    }
+
     public Blockstate getDefaultBlockstate() {
         return defaultBlockstate;
     }
@@ -40,6 +46,10 @@ public class Block {
 
     public boolean hasCollision() {
         return collision;
+    }
+
+    public boolean isTransparent() {
+        return transparency;
     }
 
     public AABB getAABB(int x, int y, int z) {

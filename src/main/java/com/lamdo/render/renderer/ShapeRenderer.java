@@ -139,27 +139,28 @@ public class ShapeRenderer {
     }
 
     public static void drawBox(ShapeModel shape, Vector3f position, BoundingBox box, Vector4f color) {
-        float w = box.getWidth()+0.001f;
-        float h = box.getHeight()+0.001f;
+        float z = -0.002f;
+        float w = box.getWidth()+0.002f;
+        float h = box.getHeight()+0.002f;
         float[] positions = new float[] {
                 //12 lines need to be drawn
                 //4 bottom lines
-                0, 0, 0, 0, 0, w,
-                0, 0, w, w, 0, w,
-                w, 0, w, w, 0, 0,
-                0, 0, 0, w, 0, 0,
+                z, z, z, z, z, w,
+                z, z, w, w, z, w,
+                w, z, w, w, z, z,
+                z, z, z, w, z, z,
 
                 //4 vertical lines
-                0, 0, w, 0, h, w,
-                w, 0, w, w, h, w,
-                w, 0, 0, w, h, 0,
-                0, 0, 0, 0, h, 0,
+                z, z, w, z, h, w,
+                w, z, w, w, h, w,
+                w, z, z, w, h, z,
+                z, z, z, z, h, z,
 
                 //4 top lines
-                0, h, 0, 0, h, w,
-                0, h, w, w, h, w,
-                w, h, w, w, h, 0,
-                0, h, 0, w, h, 0
+                z, h, z, z, h, w,
+                z, h, w, w, h, w,
+                w, h, w, w, h, z,
+                z, h, z, w, h, z
         };
         float[] colors = new float[] {
                 color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w, color.x, color.y, color.z, color.w,

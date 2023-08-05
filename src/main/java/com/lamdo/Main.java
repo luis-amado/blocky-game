@@ -22,28 +22,28 @@ public class Main {
 
         // Set the texture that the voxels will use
         VoxelModel.setTexture(Loader.loadTextureAtlas("/textures/new_atlas.png"), 8);
-        World world = new World();
 
+        World world = new World();
         Hotbar hotbar = new Hotbar();
 
         MasterRenderer renderer = new MasterRenderer();
         Player player = new Player(new Vector3d(0, 45, 0), world, hotbar);
         Camera camera = new Camera(player);
-
-        world.generateTerrains();
-        world.generateMeshes();
+        world.updatePlayerPos(player.getPosition());
+        world.update();
 
         Crosshair crosshair = new Crosshair();
 
         while(!window.shouldClose()) {
-            glClear(GL_COLOR_BUFFER_BIT);
-            glClearColor(0, 0, 0, 1);
+            if(!player.spectatorModeActive()) {
+                hotbar.update();
+                hotbar.render();
+
+                if (!Window.debugMode) crosshair.render();
+            }
 
             player.move();
-
-            hotbar.update();
-            hotbar.render();
-            if(!Window.debugMode) crosshair.render();
+            world.update();
             renderer.render(world, camera);
 
             window.update();

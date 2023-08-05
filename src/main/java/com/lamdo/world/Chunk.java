@@ -27,35 +27,62 @@ public class Chunk {
     private Vector2i coord;
     private VoxelModel voxelModel;
     private short[] blockstates;
+    private boolean active;
+    private boolean dirty;
+    private Mesh mesh;
+    private boolean meshCreated;
+    private boolean meshApplied;
+    private boolean terrainGenerated;
 
     public Chunk(int x, int z, World world) {
         this.world = world;
         this.coord = new Vector2i(x, z);
         voxelModel = new VoxelModel(new Vector3f(x * WIDTH, 0, z * WIDTH));
         blockstates = new short[WIDTH * HEIGHT * WIDTH];
+        active = true;
+        dirty = true;
+        terrainGenerated = false;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public boolean meshGenerated() {
+        return meshCreated;
+    }
+
+    public boolean isTerrainGenerated() {
+        return this.terrainGenerated;
+    }
+
+    public boolean meshApplied() {
+        return this.meshApplied;
     }
 
     public void generateTerrain() {
         for(int x = 0; x < WIDTH; x++) {
             for(int z = 0; z < WIDTH; z++) {
-                Vector3i worldCoords = toWorldCoord(x, 0, z);
-                int terrainHeight = 30 + (int) Math.floor(Noise.noise2D(0, worldCoords.x, worldCoords.z, 100f, 0, 3, 0.5f, 2) * 20);
                 for (int y = 0; y < HEIGHT; y++) {
-                    if(y > terrainHeight) {
-                        setBlockLocal(x, y, z, Blocks.AIR);
-                    } else if (y == terrainHeight) {
-                        setBlockLocal(x, y, z, Blocks.GRASS);
-                    } else if (y >= terrainHeight - 3) {
-                        setBlockLocal(x, y, z, Blocks.DIRT);
-                    } else if (y > 0) {
-                        setBlockLocal(x, y, z, Blocks.STONE);
-                    } else {
-                        setBlockLocal(x, y, z, Blocks.BEDROCK);
-                    }
-
+                    Vector3i worldCoords = toWorldCoord(x, y, z);
+                    blockstates[index(x, y, z)] = world.generateTerrain(worldCoords.x, worldCoords.y, worldCoords.z).getID();
                 }
             }
         }
+        terrainGenerated = true;
+    }
+
+    public void markDirty() {
+        this.dirty = true;
+        this.meshCreated = false;
+    }
+
+    public boolean isDirty() {
+        return this.dirty;
     }
 
     private void setBlockLocal(int x, int y, int z, Block block) {
@@ -64,24 +91,35 @@ public class Chunk {
 
     public void updateBlockLocal(int x, int y, int z, Block block) {
         blockstates[index(x, y, z)] = block.getDefaultBlockstate().getID();
-        createMesh();
+        markDirty();
         for(Direction face: Direction.horizontalDirections()) {
             Vector3i pos = new Vector3i(x,y,z);
             pos.add(face.getNormal());
             if(!isInThisChunk(pos.x, pos.z)) {
                 Vector3i worldPos = toWorldCoord(pos.x, pos.y, pos.z);
-                world.updateMesh(worldPos);
+                world.markDirty(worldPos);
             }
         }
     }
 
     public void createMesh() {
-        Mesh mesh = generateMesh();
+        if(!terrainGenerated) {
+            System.out.println("Tried to generate the mesh of a chunk that doesn't have a generated terrain");
+            System.exit(-1);
+        }
+        mesh = generateMesh();
+        meshCreated = true;
+        meshApplied = false;
+    }
+
+    public void applyMesh() {
         if(voxelModel.hasModel()) {
             Loader.updateVAO(voxelModel.getModel(), mesh.positions(), mesh.textureCoords(), mesh.indices());
         } else {
             voxelModel.setModel(Loader.loadToVAO(mesh.positions(), mesh.textureCoords(), mesh.indices()));
         }
+        dirty = false;
+        meshApplied = true;
     }
 
     private Mesh generateMesh() {
@@ -104,7 +142,7 @@ public class Chunk {
                         Vector3i faceNormal = face.getNormal();
                         Blockstate faceBlockstate = getBlockstateLocal(x + faceNormal.x, y + faceNormal.y, z + faceNormal.z);
                         Block faceBlock = faceBlockstate.getBlock();
-                        if(faceBlock.isSolid()) continue;
+                        if(faceBlock.isSolid() && !faceBlock.isTransparent()) continue;
 
                         float[] facePositions = face.getFaceVoxelVertices(x, y, z);
                         float[] faceCoords = VoxelModel.getTextureCoords(blockstate.getTextures().getFaceTexture(face));

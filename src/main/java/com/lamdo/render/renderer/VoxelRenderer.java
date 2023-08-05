@@ -24,8 +24,10 @@ public class VoxelRenderer {
     public void render(World world) {
         bindTexture();
         for(Chunk chunk: world.getChunks()) {
-            prepareVoxelModel(chunk.getVoxelModel());
-            glDrawElements(GL_TRIANGLES, chunk.getVoxelModel().getModel().indexCount(), GL_UNSIGNED_INT, 0);
+            if(chunk.meshApplied()) {
+                prepareVoxelModel(chunk.getVoxelModel());
+                glDrawElements(GL_TRIANGLES, chunk.getVoxelModel().getModel().indexCount(), GL_UNSIGNED_INT, 0);
+            }
         }
         unbindVoxelModel();
     }

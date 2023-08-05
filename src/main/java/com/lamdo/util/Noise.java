@@ -42,7 +42,7 @@ public class Noise {
             float sampleX = (x+offset) / scale * frequency + octaveOffsets[i].x;
             float sampleY = (y+offset) / scale * frequency + octaveOffsets[i].y;
 
-            float noiseValue = OpenSimplex2S.noise2(0, sampleX, sampleY);
+            float noiseValue = OpenSimplex2S.noise2(seed, sampleX, sampleY);
             noiseHeight += noiseValue * amplitude;
 
             limitValue += amplitude;
@@ -56,6 +56,20 @@ public class Noise {
 
         return noiseHeight;
 
+    }
+
+    public static float random(int seed, float x, float y, float offset) {
+        float sampleX = (x+offset) / 0.0001f;
+        float sampleY = (y+offset) / 0.0001f;
+        return OpenSimplex2S.noise2(seed, sampleX, sampleY);
+    }
+
+    public static int randInt(int seed, float x, float y, float offset, int min, int max) {
+        float sampleX = (x+offset) / 0.0001f;
+        float sampleY = (y+offset) / 0.0001f;
+        float noiseValue = OpenSimplex2S.noise2(seed, sampleX, sampleY);
+        int maxExclusive = max + 1;
+        return (int)Math.floor(noiseValue * (maxExclusive-min)) + min;
     }
 
 }
