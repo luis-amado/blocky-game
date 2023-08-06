@@ -20,6 +20,7 @@ public class MasterRenderer {
     private static final float FAR_PLANE = 1000f;
 
     private static final Vector3f SKY_COLOR = Color.fromHexCode("#87ceeb");
+    private static final Vector3f VOID_COLOR = Color.fromHexCode("#000000");
 
     private VoxelShader voxelShader = new VoxelShader();
     private VoxelRenderer voxelRenderer;
@@ -46,10 +47,11 @@ public class MasterRenderer {
         }
 
         Matrix4f viewMatrix = MathUtil.createViewMatrix(camera);
-        prepare();
+        Vector3f skyColor = getSkyColor(camera);
+        prepare(skyColor);
         voxelShader.start();
         voxelShader.loadViewMatrix(viewMatrix);
-        voxelShader.loadSkyColor(SKY_COLOR);
+        voxelShader.loadSkyColor(skyColor);
         voxelRenderer.render(world);
         voxelShader.stop();
 
@@ -65,10 +67,17 @@ public class MasterRenderer {
         shapeShader.cleanUp();
     }
 
-    public void prepare() {
+    private Vector3f getSkyColor(Camera camera) {
+        float cameraHeight = camera.getPosition().y;
+        float transitionPoint = 20;
+        float skyColorAmount = MathUtil.clamp01(cameraHeight - transitionPoint + 0.5f);
+        return Color.mix(VOID_COLOR, SKY_COLOR, skyColorAmount);
+    }
+
+    public void prepare(Vector3f skyColor) {
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(SKY_COLOR.x, SKY_COLOR.y, SKY_COLOR.z, 1);
+        glClearColor(skyColor.x, skyColor.y, skyColor.z, 1);
     }
 
     public static void enableCulling() {

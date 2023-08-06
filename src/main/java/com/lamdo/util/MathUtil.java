@@ -78,4 +78,57 @@ public class MathUtil {
         return (v - a) / (b - a);
     }
 
+    public static float clamp01(float v) {
+        if(v < 0) return 0;
+        if(v > 1) return 1;
+        return v;
+    }
+
+    public static float clamp(float v, float a, float b) {
+        if(v < a) return a;
+        if(v > b) return b;
+        return v;
+    }
+
+
+
+    /**
+     * Increase the magnitude of a number.
+     * If the number is negative, then the number will become more negative, if it's positive it will become more positive
+     * @param v
+     * @param amount
+     * @return the changed number
+     */
+    public static float changeMagnitude(float v, float amount) {
+        if(v >= 0) {
+            return v + amount;
+        } else {
+            return v - amount;
+        }
+    }
+
+    /**
+     * Regardless of sign, this returns the value with the smallest absolute value
+     * @param a
+     * @param b
+     * @return
+     */
+    public static float minMagnitude(float a, float b) {
+        float absA = Math.abs(a);
+        float absB = Math.abs(b);
+        return absA < absB ? a : b;
+    }
+
+    /**
+     * Regardless of sign, this returns the value with the highest absolute value
+     * @param a
+     * @param b
+     * @return
+     */
+    public static float maxMagnitude(float a, float b) {
+        float absA = Math.abs(a);
+        float absB = Math.abs(b);
+        return absA > absB ? a : b;
+    }
+
 }

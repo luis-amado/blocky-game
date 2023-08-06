@@ -18,15 +18,19 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Player extends PhysicsEntity {
 
-    private float baseSpeed = 4f;
-    private float speed; // blocks per second
-    private float sensitivity = 0.1f;
+    private float baseTopSpeed = 4f; // blocks per second
+    private float acceleration = 20f; // blocks per second per second
+    private float deceleration = 20f; // blocks per second per second
 
     private float gravity = 22f;
     private float jumpStrength = 7.3f;
+    private float sensitivity = 0.1f;
+    private float topSpeed;
+
     private boolean spectatorMode = false;
 
     private Vector3f input;
+    private Vector3f relativeVelocity;
     private Hotbar hotbar;
 
     private ShapeModel hitboxShape = new ShapeModel();
@@ -38,7 +42,8 @@ public class Player extends PhysicsEntity {
     public Player (Vector3d position, World world, Hotbar hotbar) {
         super(position, world);
         this.hotbar = hotbar;
-        speed = baseSpeed;
+        topSpeed = baseTopSpeed;
+        relativeVelocity = new Vector3f(0, 0, 0);
     }
 
     @Override
@@ -55,26 +60,56 @@ public class Player extends PhysicsEntity {
         return this.spectatorMode;
     }
 
+    private float calculateAccelerationAxis(float relativeVelocity, float input) {
+        // when an input is pressed, accelerate that value up to max speed
+        if(input != 0) {
+            relativeVelocity += acceleration * (float)Time.getDeltaTime() * input;
+            relativeVelocity = MathUtil.minMagnitude(relativeVelocity, topSpeed * input);
+        } else {
+            // otherwise, we should decelerate by reducing the absolute value of the velocity down to 0
+            int sign = 1;
+            if(relativeVelocity < 0) sign = -1;
+            if(!spectatorMode) {
+                relativeVelocity = MathUtil.changeMagnitude(relativeVelocity, -deceleration * (float)Time.getDeltaTime());
+            } else {
+                relativeVelocity = MathUtil.changeMagnitude(relativeVelocity, -(topSpeed) * (float)Time.getDeltaTime());
+            }
+            relativeVelocity = Math.max(relativeVelocity * sign, 0) * sign;
+        }
+        return relativeVelocity;
+    }
+
+    private void calculateRelativeVelocity() {
+
+        relativeVelocity.x = calculateAccelerationAxis(relativeVelocity.x, input.x);
+        relativeVelocity.y = calculateAccelerationAxis(relativeVelocity.y, input.y);
+        relativeVelocity.z = calculateAccelerationAxis(relativeVelocity.z, input.z);
+
+        System.out.println(relativeVelocity.z);
+
+    }
+
     public void move() {
 
         getInput();
 
+        // apply acceleration and deceleration
+        calculateRelativeVelocity();
 
         if(!spectatorMode) {
             velocity.x = 0;
             velocity.z = 0;
             if(velocity.y > -25f)
                 velocity.y -= gravity * Time.getDeltaTime();
-            velocity = velocity.add(MathUtil.forwardVector(rotation.y).mul(input.z * speed)).add(MathUtil.rightVector(rotation.y).mul(input.x * speed));
+            velocity = velocity.add(MathUtil.forwardVector(rotation.y).mul(relativeVelocity.z)).add(MathUtil.rightVector(rotation.y).mul(relativeVelocity.x));
             processMovement();
         } else {
             velocity.x = 0;
             velocity.z = 0;
-            velocity.y = input.y * speed;
-            velocity = velocity.add(MathUtil.forwardVector(rotation.y).mul(input.z * speed)).add(MathUtil.rightVector(rotation.y).mul(input.x * speed));
+            velocity.y = relativeVelocity.y;
+            velocity = velocity.add(MathUtil.forwardVector(rotation.y).mul(relativeVelocity.z)).add(MathUtil.rightVector(rotation.y).mul(relativeVelocity.x));
             processMovementNoCollision();
         }
-
 
         if(Window.debugMode) {
             ShapeRenderer.drawBoxCenteredBottom(hitboxShape, Vector3Util.castToFloat(position), boundingBox, new Vector4f(1, 1, 1, 1));
@@ -87,7 +122,7 @@ public class Player extends PhysicsEntity {
 
             // Return the player if they fell down the void
             if(position.y < -40f) {
-                position = new Vector3d(0, 80, 0);
+                position.y = 80;
                 velocity.y = 0f;
             }
         }
@@ -181,14 +216,14 @@ public class Player extends PhysicsEntity {
         if(Window.isKeyPressed(GLFW_KEY_A)) {
             input.x -= 1;
         }
+        if(input.lengthSquared() > 0)
+            input.normalize();
         if(Window.isKeyPressed(GLFW_KEY_SPACE)) {
             input.y += 1;
         }
         if(Window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
             input.y -= 1;
         }
-        if(input.lengthSquared() > 0)
-            input.normalize();
 
         //jumping
         if(grounded && Window.isKeyPressed(GLFW_KEY_SPACE)) {
@@ -199,7 +234,7 @@ public class Player extends PhysicsEntity {
         if(Window.isKeyPressed(GLFW_KEY_F)) {
             if(!holdingF) {
                 spectatorMode = !spectatorMode;
-                speed = baseSpeed;
+                topSpeed = baseTopSpeed;
             }
             holdingF = true;
         } else {
@@ -208,8 +243,8 @@ public class Player extends PhysicsEntity {
 
         //changing speed in spectator mode
         if(spectatorMode) {
-            speed += Window.getMouseDWheel();
-            speed = Math.max(speed, 0);
+            topSpeed += Window.getMouseDWheel();
+            topSpeed = Math.max(topSpeed, 0);
         }
     }
 

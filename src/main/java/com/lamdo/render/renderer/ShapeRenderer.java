@@ -211,7 +211,7 @@ public class ShapeRenderer {
         ArrayUtils.addFloatArrayToList(verticalColumnsColors, colors);
 
         // add 4 horizontal lines every 2 blocks
-        for(int y = 0; y <= Chunk.HEIGHT; y += 2) {
+        for(float y = 0.002f; y <= Chunk.HEIGHT; y += 2) {
             float[] horizontalRowsPos = new float[] {
                     0, y, 0, 0, y, w,
                     0, y, w, w, y, w,

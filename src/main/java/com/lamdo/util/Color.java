@@ -13,4 +13,12 @@ public class Color {
         return new Vector3f(r/255f, g/255f, b/255f);
     }
 
+    public static Vector3f mix(Vector3f color0, Vector3f color1, float amount) {
+        return new Vector3f(
+                MathUtil.lerp(color0.x, color1.x, amount),
+                MathUtil.lerp(color0.y, color1.y, amount),
+                MathUtil.lerp(color0.z, color1.z, amount)
+        );
+    }
+
 }
