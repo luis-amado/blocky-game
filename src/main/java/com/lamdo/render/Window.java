@@ -24,7 +24,7 @@ public class Window {
     private static Vector2d prevMouse = new Vector2d(0, 0);
     private static Vector2d mouseDelta = new Vector2d(0, 0);
     private static double mouseDW;
-    private static boolean[] mouseButtons = new boolean[2];
+    private static boolean[] mouseButtons = new boolean[3];
     private static boolean focused = true;
 
     public static boolean debugMode;
@@ -175,7 +175,7 @@ public class Window {
             focused = true;
         }
 
-        if(button < 2) {
+        if(button <= 2) {
             mouseButtons[button] = action == GLFW_PRESS;
         }
     }

@@ -189,7 +189,7 @@ public class World {
     }
 
     public void generateTerrainBatch() {
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 3; i++) {
             if(chunksToGenerateTerrain.size() == 0) return;
             Chunk chunk = chunksToGenerateTerrain.poll();
             chunk.generateTerrain();
@@ -199,7 +199,7 @@ public class World {
 
     public void generateMeshBatch() {
         if(chunksToGenerateTerrain.size() > 0) return;
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 3; i++) {
             if(chunksToGenerateMesh.size() == 0) return;
             Chunk chunk = chunksToGenerateMesh.poll();
             chunk.createMesh();
@@ -224,18 +224,14 @@ public class World {
     }
 
     public void applyMeshes() {
-        synchronized (this) {
-            while(chunksToApplyMesh.size() > 0) {
-                Chunk chunk = chunksToApplyMesh.poll();
-                chunk.applyMesh();
-            }
+        while(chunksToApplyMesh.size() > 0) {
+            Chunk chunk = chunksToApplyMesh.poll();
+            chunk.applyMesh();
         }
     }
 
     public Collection<Chunk> getChunks() {
-        synchronized (this) {
-            return chunks.values().stream().filter(Chunk::isActive).toList();
-        }
+        return chunks.values().stream().filter(Chunk::isActive).toList();
     }
 
 }

@@ -48,7 +48,9 @@ public class MasterRenderer {
 
         Matrix4f viewMatrix = MathUtil.createViewMatrix(camera);
         Vector3f skyColor = getSkyColor(camera);
+
         prepare(skyColor);
+
         voxelShader.start();
         voxelShader.loadViewMatrix(viewMatrix);
         voxelShader.loadSkyColor(skyColor);

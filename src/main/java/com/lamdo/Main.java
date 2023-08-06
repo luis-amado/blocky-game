@@ -47,14 +47,18 @@ public class Main {
             }
 
             player.move();
-            world.update();
-            renderer.render(world, camera);
+
+            synchronized (world) {
+                world.update();
+                renderer.render(world, camera);
+            }
 
             window.update();
         }
 
         worldGenThread.requestStop();
 
+        renderer.cleanUp();
         Loader.cleanUp();
         window.terminate();
 

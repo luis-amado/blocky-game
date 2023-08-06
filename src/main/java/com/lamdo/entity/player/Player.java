@@ -1,5 +1,6 @@
 package com.lamdo.entity.player;
 
+import com.lamdo.block.Block;
 import com.lamdo.block.Blocks;
 import com.lamdo.entity.PhysicsEntity;
 import com.lamdo.gui.components.Hotbar;
@@ -19,8 +20,8 @@ import static org.lwjgl.glfw.GLFW.*;
 public class Player extends PhysicsEntity {
 
     private float baseTopSpeed = 4f; // blocks per second
-    private float acceleration = 20f; // blocks per second per second
-    private float deceleration = 20f; // blocks per second per second
+    private float acceleration = 25f; // blocks per second per second
+    private float deceleration = 25f; // blocks per second per second
 
     private float gravity = 22f;
     private float jumpStrength = 7.3f;
@@ -38,6 +39,7 @@ public class Player extends PhysicsEntity {
     private ShapeModel lookingAtOutline = new ShapeModel();
 
     private boolean holdingF = false;
+    private boolean holdingMiddleClick = false;
 
     public Player (Vector3d position, World world, Hotbar hotbar) {
         super(position, world);
@@ -136,10 +138,24 @@ public class Player extends PhysicsEntity {
         if(lookingAt != null) {
             ShapeRenderer.drawBox(lookingAtOutline, new Vector3f(lookingAt), new BoundingBox(1, 1), new Vector4f(0f, 0f, 0f, 0.5f));
 
+            // Pick Block
+            if(Window.getMouseButton(GLFW_MOUSE_BUTTON_MIDDLE)) {
+                if(!holdingMiddleClick) {
+                    Block block = world.getBlockstate(lookingAt).getBlock();
+                    hotbar.selectBlock(block);
+                }
+                holdingMiddleClick = true;
+            } else {
+                holdingMiddleClick = false;
+            }
+
+            // Break block
             if(Window.getMouseButton(GLFW_MOUSE_BUTTON_LEFT)) {
                 world.updateBlock(lookingAt, Blocks.AIR);
                 lookingAt.sub(face.getNormal());
             }
+
+            // Place block
             if(Window.getMouseButton(GLFW_MOUSE_BUTTON_RIGHT)) {
                 Vector3i placePos = new Vector3i(lookingAt);
                 placePos.add(face.getNormal());
@@ -148,6 +164,7 @@ public class Player extends PhysicsEntity {
                 if(!aabb.checkCollision(blockAABB))
                     world.updateBlock(placePos, hotbar.getSelectedBlock());
             }
+
 
         }
     }

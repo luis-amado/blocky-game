@@ -74,6 +74,20 @@ public class Hotbar extends TexturedUIComponent{
         selectedSlotHighlight.left(new PixelConstraint(selectedIndex * 41 + 1));
     }
 
+    public void selectBlock(Block block) {
+        int newIndex = -1;
+        for(int i = 0; i < hotbarBlocks.length; i++) {
+            if(hotbarBlocks[i] == block) {
+                newIndex = i;
+                break;
+            }
+        }
+
+        if(newIndex != -1) {
+            setSelectedIndex(newIndex);
+        }
+    }
+
 
 
 }
