@@ -9,6 +9,7 @@ import com.lamdo.render.Window;
 import com.lamdo.render.model.VoxelModel;
 import com.lamdo.render.renderer.MasterRenderer;
 import com.lamdo.world.World;
+import com.lamdo.world.WorldGenThread;
 import org.joml.Vector3d;
 
 import static org.lwjgl.opengl.GL33.*;
@@ -30,9 +31,12 @@ public class Main {
         Player player = new Player(new Vector3d(0, 45, 0), world, hotbar);
         Camera camera = new Camera(player);
         world.updatePlayerPos(player.getPosition());
-        world.update();
+        world.init();
 
         Crosshair crosshair = new Crosshair();
+
+        WorldGenThread worldGenThread = new WorldGenThread(world);
+        worldGenThread.start();
 
         while(!window.shouldClose()) {
             if(!player.spectatorModeActive()) {
@@ -48,6 +52,8 @@ public class Main {
 
             window.update();
         }
+
+        worldGenThread.requestStop();
 
         Loader.cleanUp();
         window.terminate();

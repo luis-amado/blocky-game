@@ -79,6 +79,7 @@ public class Chunk {
     public void markDirty() {
         this.dirty = true;
         this.meshCreated = false;
+        world.markDirty(toWorldCoord(0, 0, 0));
     }
 
     public boolean isDirty() {

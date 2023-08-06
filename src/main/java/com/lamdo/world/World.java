@@ -11,9 +11,7 @@ import org.joml.Vector2i;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class World {
 
@@ -27,6 +25,10 @@ public class World {
 
     private Map<Vector2i, Chunk> chunks;
 
+    private Queue<Chunk> chunksToGenerateTerrain = new LinkedList<>();
+    private Queue<Chunk> chunksToGenerateMesh = new LinkedList<>();
+    private Queue<Chunk> chunksToApplyMesh = new LinkedList<>();
+
     public World() {
         chunks = new HashMap<Vector2i, Chunk>();
     }
@@ -35,14 +37,18 @@ public class World {
         this.playerPos = playerPos;
     }
 
-    public void update() {
+    public void init() {
         generateChunksInRenderDistance();
         generateTerrains();
         generateMeshes();
+        update();
+    }
+
+    public void update() {
         applyMeshes();
     }
 
-    private void generateChunksInRenderDistance() {
+    public void generateChunksInRenderDistance() {
         for(Chunk chunk: chunks.values()) {
             chunk.setActive(false);
         }
@@ -61,6 +67,7 @@ public class World {
                     Chunk newChunk = new Chunk(chunkCoord.x, chunkCoord.y, this);
                     chunks.put(chunkCoord, newChunk);
                     updateSurroundingChunks(chunkCoord);
+                    chunksToGenerateTerrain.add(newChunk);
                 }
             }
         }
@@ -107,7 +114,8 @@ public class World {
             for(int zoff = -1; zoff <= 1; zoff += 2) {
                 Vector2i offsetCoord = new Vector2i(coord).add(xoff, zoff);
                 if(chunks.containsKey(offsetCoord)) {
-                    chunks.get(offsetCoord).markDirty();
+                    Chunk chunk = chunks.get(offsetCoord);
+                    chunksToGenerateMesh.add(chunk);
                 }
             }
         }
@@ -127,7 +135,7 @@ public class World {
 
             // ask the chunk for the block
             Chunk chunk = chunks.get(chunkCoord);
-            chunk.markDirty();
+            chunksToGenerateMesh.add(chunk);
         }
     }
 
@@ -180,30 +188,54 @@ public class World {
         return chunks.containsKey(coord);
     }
 
+    public void generateTerrainBatch() {
+        for(int i = 0; i < 5; i++) {
+            if(chunksToGenerateTerrain.size() == 0) return;
+            Chunk chunk = chunksToGenerateTerrain.poll();
+            chunk.generateTerrain();
+            chunksToGenerateMesh.add(chunk);
+        }
+    }
+
+    public void generateMeshBatch() {
+        if(chunksToGenerateTerrain.size() > 0) return;
+        for(int i = 0; i < 5; i++) {
+            if(chunksToGenerateMesh.size() == 0) return;
+            Chunk chunk = chunksToGenerateMesh.poll();
+            chunk.createMesh();
+            chunksToApplyMesh.add(chunk);
+        }
+    }
+
     public void generateTerrains() {
-        for(Chunk chunk: chunks.values()) {
-            if(!chunk.isTerrainGenerated())
-                chunk.generateTerrain();
+        while(chunksToGenerateTerrain.size() > 0) {
+            Chunk chunk = chunksToGenerateTerrain.poll();
+            chunk.generateTerrain();
+            chunksToGenerateMesh.add(chunk);
         }
     }
 
     public void generateMeshes() {
-        for(Chunk chunk: chunks.values()) {
-            if(chunk.isActive() && chunk.isDirty())
-                chunk.createMesh();
+        while(chunksToGenerateMesh.size() > 0) {
+            Chunk chunk = chunksToGenerateMesh.poll();
+            chunk.createMesh();
+            chunksToApplyMesh.add(chunk);
         }
     }
 
     public void applyMeshes() {
-        for(Chunk chunk: chunks.values()) {
-            if(chunk.isActive() && chunk.isDirty() && chunk.meshGenerated())
+        synchronized (this) {
+            while(chunksToApplyMesh.size() > 0) {
+                Chunk chunk = chunksToApplyMesh.poll();
                 chunk.applyMesh();
+            }
         }
     }
 
     public Collection<Chunk> getChunks() {
-        return chunks.values().stream().filter(Chunk::isActive).toList();
-//        return chunks.values();
+        synchronized (this) {
+            return chunks.values().stream().filter(Chunk::isActive).toList();
+        }
     }
 
 }

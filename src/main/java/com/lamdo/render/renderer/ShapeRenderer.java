@@ -141,9 +141,9 @@ public class ShapeRenderer {
     }
 
     public static void drawBox(ShapeModel shape, Vector3f position, BoundingBox box, Vector4f color) {
-        float z = -0.002f;
-        float w = box.getWidth()+0.002f;
-        float h = box.getHeight()+0.002f;
+        float z = -0.004f;
+        float w = box.getWidth()+0.004f;
+        float h = box.getHeight()+0.004f;
         float[] positions = new float[] {
                 //12 lines need to be drawn
                 //4 bottom lines

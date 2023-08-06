@@ -53,7 +53,7 @@ public class Player extends PhysicsEntity {
 
     @Override
     public float getEyeHeight() {
-        return 1.71f;
+        return 1.65f;
     }
 
     public boolean spectatorModeActive() {
@@ -72,7 +72,7 @@ public class Player extends PhysicsEntity {
             if(!spectatorMode) {
                 relativeVelocity = MathUtil.changeMagnitude(relativeVelocity, -deceleration * (float)Time.getDeltaTime());
             } else {
-                relativeVelocity = MathUtil.changeMagnitude(relativeVelocity, -(topSpeed) * (float)Time.getDeltaTime());
+                relativeVelocity = MathUtil.changeMagnitude(relativeVelocity, -(topSpeed * 5f) * (float)Time.getDeltaTime());
             }
             relativeVelocity = Math.max(relativeVelocity * sign, 0) * sign;
         }
@@ -84,8 +84,6 @@ public class Player extends PhysicsEntity {
         relativeVelocity.x = calculateAccelerationAxis(relativeVelocity.x, input.x);
         relativeVelocity.y = calculateAccelerationAxis(relativeVelocity.y, input.y);
         relativeVelocity.z = calculateAccelerationAxis(relativeVelocity.z, input.z);
-
-        System.out.println(relativeVelocity.z);
 
     }
 
